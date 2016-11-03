@@ -1,3 +1,11 @@
 from django.shortcuts import render
+from django.views import generic
 
-# Create your views here.
+from .models import Article
+
+class ArticlesList(generic.ListView): # представление в виде списка
+    model = Article                   # модель для представления
+
+class ArticleDetail(generic.DetailView):
+    model = Article
+

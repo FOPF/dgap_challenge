@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Кубок ФОПФа</title>
+
+    {% load staticfiles %}
+    <link href="{% static 'dota/style.css' %}" rel="stylesheet">
+
+
+</head>
+<body>
+    <nav>
+        <div class="controls">
+            <ul>
+                <li><a href="{% url "dota:article_list" %}">Новости</a></li>
+                <li><a href="{% url "dota:tournament" %}">Турнир</a></li>
+                <li><a href="{% url "dota:live" %}">Трансляция</a></li>
+
+            </ul>
+        </div>
+        <div class="profile">
+
+        </div>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
