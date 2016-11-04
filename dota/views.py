@@ -10,7 +10,7 @@ class ArticleDetail(generic.DetailView):
     model = Article
 
 class Index(generic.ListView):
-    template_name = 'index.html'
+    template_name = 'dota/base.html'
 
     def get_queryset(self):
         if self.request.user.is_authenticated():
