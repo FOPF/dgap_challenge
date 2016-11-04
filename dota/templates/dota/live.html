@@ -4,7 +4,7 @@
     <h1>
         Трансляция начнется 13 ноября.
     </h1>
-    <iframe class="broadcast"
+    {% comment %}   <iframe class="broadcast"
         src="http://player.twitch.tv/?channel=dgapmipt"
         height="720"
         width="1280"
@@ -12,5 +12,19 @@
         scrolling="no"
         allowfullscreen="true">
     </iframe>
+    {% endcomment %}
+
+    <script src= "http://player.twitch.tv/js/embed/v1.js"></script>
+    <div id="live-player"></div>
+    <script type="text/javascript">
+        var options = {
+            width: 854,
+            height: 480,
+            channel: "dgapmipt",
+            //video: "{VIDEO_ID}"
+        };
+        var player = new Twitch.Player("live-player", options);
+        player.setVolume(0.5);
+    </script>
 
 {% endblock %}
