@@ -2,11 +2,10 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.views import generic
-from dota.models import Team
 from django.contrib.auth import logout as auth_logout
 import random
 
-from .models import Article
+from .models import Article, Team, UserProfile
 
 
 class ArticlesList(generic.ListView): # представление в виде списка
@@ -35,6 +34,11 @@ def logout(request):
     auth_logout(request)
     return redirect('index')
 
+
+def add_profile(backend, user, response, *args, **kwargs):
+    if not hasattr(user, 'userprofile'):
+        user.userprofile = UserProfile(user=user)
+        user.userprofile.save()
 
 def join(request):
     user = request.user
