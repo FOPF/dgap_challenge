@@ -36,14 +36,25 @@
 
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
-                    <p>Hello, user</p>
+                    <li><a>Привет, {{ user.first_name }}</a></li>
                     <li><a href="{%  url "dota:team" %}">Команда</a></li>
                 {% else %}
                     <li><a href="{% url 'social:begin' 'vk-oauth2' %}?next={% url 'dota:index' %}">Войти через vk</a></li>
                 {% endif %}
             </ul>
         </div>
+        </div>
     </nav>
+
+    {% if messages %}
+        <div class="alert alert-danger">
+            <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
 
     <div class="container-fluid main">
 {#        <div class="row">#}
