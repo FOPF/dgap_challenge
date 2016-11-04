@@ -35,13 +35,13 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                {% if is_authenticated %}
-                    <li>Hello, user</li>
+                {% if user.is_authenticated %}
+                    <p>Hello, user</p>
+                    <li><a href="{%  url "dota:team" %}">Команда</a></li>
                 {% else %}
                     <li><a href="{% url 'social:begin' 'vk-oauth2' %}?next={% url 'dota:index' %}">Войти через vk</a></li>
                 {% endif %}
             </ul>
-        </div>
         </div>
     </nav>
 

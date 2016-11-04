@@ -1,0 +1,18 @@
+{% extends "dota/base.html" %}
+
+{% block content %}
+    <div class="team">
+        {% if user.userprofile.team %}
+
+        {% else %}
+            <p>Вы ещё не вступили ни в одну из команд</p>
+
+            <form name="invite_key" method="post" action={% url 'dota:join' %}>
+                {% csrf_token %}
+                <p><b>Если у вас ключ для вступления в команду, пожалуйста, введите его в данное поле</b></p>
+                <input type="text" size="40">
+                <input type="submit">
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}
