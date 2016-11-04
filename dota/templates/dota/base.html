@@ -20,8 +20,9 @@
             </ul>
         </div>
         <div class="profile">
-            {% if is_authenticated %}
+            {% if user.is_authenticated %}
                 <p>Hello, user</p>
+                <li><a href="{%  url "dota:team" %}">Команда</a></li>
             {% else %}
                 <li><a href="{% url 'social:begin' 'vk-oauth2' %}?next={% url 'dota:index' %}">Войти через vk</a></li>
             {% endif %}
