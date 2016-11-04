@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.views import generic
 from dota.models import Team
+from django.contrib.auth import logout as auth_logout
 
 from .models import Article
 
@@ -15,8 +16,11 @@ class ArticleDetail(generic.DetailView):
     model = Article
 
 
-class Index(generic.TemplateView):
-    pass
+class Index(generic.View):
+    def get(self, request):
+        return redirect('dota:article_list')
+    def post(self, request):
+        return redirect('dota:article_list')
 
 
 
@@ -24,6 +28,11 @@ class TeamView(generic.TemplateView):
     @property
     def get_members(self):
         pass
+
+def logout(request):
+    messages.success(request, 'Вы вышли из аккаунта')
+    auth_logout(request)
+    return redirect('index')
 
 
 def join(request):
