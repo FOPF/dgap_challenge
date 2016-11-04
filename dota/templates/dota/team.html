@@ -10,7 +10,7 @@
             <form name="invite_key" method="post" action={% url 'dota:join' %}>
                 {% csrf_token %}
                 <p><b>Если у вас ключ для вступления в команду, пожалуйста, введите его в данное поле</b></p>
-                <input type="text" size="40">
+                <input type="text" name="invite_key" size="40">
                 <input type="submit">
             </form>
         {% endif %}
