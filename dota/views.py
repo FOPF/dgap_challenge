@@ -37,8 +37,9 @@ def join(request):
     if not invite_key:
         messages.error(request, 'Вы ввели пустой ключ')
         return redirect('dota:team')
+    invite_key = invite_key[0]
 
-    team = Team.objects.filter(invite_key=invite_key).get()
+    team = Team.objects.filter(invite_key=invite_key).all()
     len_team = len(team)
     if len_team > 1:
         messages.error(request, 'Неизвестная ошибка, напишите, пожалуйста, разработчикам')
@@ -48,9 +49,13 @@ def join(request):
         return redirect('dota:team')
     elif len_team == 1:
         # TODO Race condition
-        number_of_member = team[0].objects.count()
+        if not hasattr(team[0], 'user'):
+            number_of_member = 0
+        else:
+            number_of_member = team[0].user.objects.count()
         if number_of_member < 5:
-            user.userprofile.update(team=team[0].id)
+            user.userprofile.team_id = team[0].id
+            user.userprofile.save()
             messages.success(request, 'Вы вступили в команду')
             return redirect('dota:index')
         else:
