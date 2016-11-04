@@ -20,7 +20,11 @@
             </ul>
         </div>
         <div class="profile">
-
+            {% if page_obj.0 %}
+                <p>Hello, user</p>
+            {% else %}
+                <li><a href="{% url 'social:begin' 'vk-oauth2' %}?next={% url 'dota:index' %}">Войти через vk</a></li>
+            {% endif %}
         </div>
     </nav>
 
