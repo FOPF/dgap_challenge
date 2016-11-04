@@ -31,7 +31,7 @@ class TeamView(generic.View):
     def get_team_info(self, request):
         try:
             team = request.user.userprofile.team
-            members = UserProfile.objects.filter(team=team).all()
+            members = team.get_members()
             free = MAX_TEAM_SIZE - len(members)
             dct = {
                 'team': team,
@@ -73,22 +73,20 @@ def join(request):
         return redirect('dota:team')
     invite_key = invite_key[0]
 
-    team = Team.objects.filter(invite_key=invite_key).all()
-    len_team = len(team)
-    if len_team > 1:
+    teams = Team.objects.filter(invite_key=invite_key).all()
+    num_teams = len(teams)
+    if num_teams > 1:
         messages.error(request, 'Неизвестная ошибка, напишите, пожалуйста, разработчикам')
         return redirect('dota:team')
-    elif len_team == 0:
-        messages.info(request, 'Команды, соответствующей данному ключу, не найдено')
+    elif num_teams == 0:
+        messages.error(request, 'Команды, соответствующей данному ключу, не найдено')
         return redirect('dota:team')
-    elif len_team == 1:
+    elif num_teams == 1:
+        team = teams[0]
         # TODO Race condition
-        if not hasattr(team[0], 'user'):
-            number_of_member = 0
-        else:
-            number_of_member = team[0].user.objects.count()
-        if number_of_member < 5:
-            user.userprofile.team_id = team[0].id
+        num_members = len(team.get_members())
+        if num_members < 5:
+            user.userprofile.team = team
             user.userprofile.save()
             messages.success(request, 'Вы вступили в команду')
             return redirect('dota:index')

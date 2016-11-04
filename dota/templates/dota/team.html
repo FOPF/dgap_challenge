@@ -6,18 +6,22 @@
             <h2>{{ team.name }}</h2>
             <p>Пригласительный код: <b>{{ team.invite_key }}</b></p>
             {% for member in members %}
-                <p>{{ member.user.first_name }} {{ member.user.last_name }} </p>
+                <p><b>{{ member.user.first_name }} {{ member.user.last_name }}</b></p>
             {% empty %}
                 <<p>Нет участников</p>
             {% endfor %}
-            <p>Свободно мест: {{ free }}</p>
+            {% if free > 0 %}
+                <p>Свободно мест: {{ free }}</p>
+            {% else %}
+                <p>Команда полнстью укомплектована</p>
+            {% endif %}
         {% else %}
             <p>Вы ещё не вступили ни в одну из команд</p>
 
             <div>
                 <form name="invite_key" method="post" action={% url 'dota:join' %}>
                     {% csrf_token %}
-                    <p><b>Если у вас ключ для вступления в команду, пожалуйста, введите его в данное поле</b></p>
+                    <p><b>Если у вас есть ключ для вступления в команду, пожалуйста, введите его в данное поле</b></p>
                     <input type="text" name="invite_key" size="40">
                     <input type="submit">
                 </form>
