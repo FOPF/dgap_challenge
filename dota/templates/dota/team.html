@@ -2,17 +2,27 @@
 
 {% block content %}
     <div class="team">
-        {% if user.userprofile.team %}
+        {% if user.userprofile.team_id != -1 %}
 
         {% else %}
             <p>Вы ещё не вступили ни в одну из команд</p>
 
-            <form name="invite_key" method="post" action={% url 'dota:join' %}>
-                {% csrf_token %}
-                <p><b>Если у вас ключ для вступления в команду, пожалуйста, введите его в данное поле</b></p>
-                <input type="text" name="invite_key" size="40">
-                <input type="submit">
-            </form>
+            <div>
+                <form name="invite_key" method="post" action={% url 'dota:join' %}>
+                    {% csrf_token %}
+                    <p><b>Если у вас ключ для вступления в команду, пожалуйста, введите его в данное поле</b></p>
+                    <input type="text" name="invite_key" size="40">
+                    <input type="submit">
+                </form>
+            </div>
+            <div>
+                <form name="create_team" method="post" action={% url 'dota:create_team' %}>
+                    {% csrf_token %}
+                    <p><b>Вы можете создать свою команду</b></p>
+                    <input type="text" name="name" size="40">
+                    <input type="submit">
+                </form>
+            </div>
         {% endif %}
     </div>
 {% endblock %}

@@ -19,4 +19,5 @@ urlpatterns = [
     url(r'^team/$', login_required(views.TeamView.as_view(template_name="dota/team.html")), name="team"),
     url(r'^join/$', login_required(views.join), name="join"),
     url(r'^logout/$', views.logout, name='logout'),
+    url(r'^create_team/$', login_required(views.create_team), name="create_team"),
 ]
