@@ -40,15 +40,21 @@ INSTALLED_APPS = [
     'dota',
 ]
 
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
+MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+    'django_user_agents.middleware.UserAgentMiddleware',
+    #'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',
+    # 'profiles.psa.SocialAuthExceptionMiddlewareExtended',
+)
+
+AUTHENTICATION_BACKENDS = (
+    'social.backends.vk.VKOAuth2',
+)
 
 ROOT_URLCONF = 'dgap_challenge.urls'
 
@@ -120,3 +126,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+from dgap_challenge.local_settings import *
