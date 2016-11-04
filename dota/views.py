@@ -12,8 +12,13 @@ class ArticleDetail(generic.DetailView):
 class Index(generic.ListView):
     template_name = 'dota/base.html'
 
-    def get_queryset(self):
+    def get_context_data(self, *args, **kwargs):
+        context = super(Index, self).get_context_data(*args, **kwargs)
         if self.request.user.is_authenticated():
-            return [True]
+            context['is_authenticated'] = True
         else:
-            return [False]
+            context['is_authenticated'] = False
+        return context
+
+    def get_queryset(self):
+        return None
