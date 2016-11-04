@@ -143,4 +143,6 @@ USE_TZ = True
 STATIC_ROOT = (os.path.join(BASE_DIR, 'static'))
 STATIC_URL = '/static/'
 
+MAX_TEAM_SIZE = 5
+
 from dgap_challenge.local_settings import *

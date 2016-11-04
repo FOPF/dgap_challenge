@@ -3,7 +3,14 @@
 {% block content %}
     <div class="team">
         {% if user.userprofile.team_id != -1 %}
-
+            <h2>{{ team.name }}</h2>
+            <p>Пригласительный код: <b>{{ team.invite_key }}</b></p>
+            {% for member in members %}
+                <p>{{ member.user.first_name }} {{ member.user.last_name }} </p>
+            {% empty %}
+                <<p>Нет участников</p>
+            {% endfor %}
+            <p>Свободно мест: {{ free }}</p>
         {% else %}
             <p>Вы ещё не вступили ни в одну из команд</p>
 

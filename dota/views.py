@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
@@ -5,6 +6,7 @@ from django.views import generic
 from django.contrib.auth import logout as auth_logout
 import random
 
+from dgap_challenge.settings import MAX_TEAM_SIZE
 from .models import Article, Team, UserProfile
 
 
@@ -23,11 +25,29 @@ class Index(generic.View):
         return redirect('dota:article_list')
 
 
+class TeamView(generic.View):
+    template_name = 'dota/team.html'
 
-class TeamView(generic.TemplateView):
-    @property
-    def get_members(self):
-        pass
+    def get_team_info(self, request):
+        try:
+            team = request.user.userprofile.team
+            members = UserProfile.objects.filter(team=team).all()
+            free = MAX_TEAM_SIZE - len(members)
+            dct = {
+                'team': team,
+                'members': members,
+                'free': free,
+            }
+        except ObjectDoesNotExist:
+            dct = {}
+        return render(request, self.template_name, dct)
+
+    def get(self, request, *args, **kwargs):
+        return self.get_team_info(request)
+    def post(self, request, *args, **kwargs):
+        return self.get_team_info(request)
+
+
 
 def logout(request):
     messages.success(request, 'Вы вышли из аккаунта')
@@ -94,7 +114,7 @@ def create_team(request):
         user.userprofile.captain = 1
         user.userprofile.save()
         messages.success(request, 'Вы создали команду')
-        return redirect('dota:index')
+        return redirect('dota:team')
     else:
         messages.error(request, 'Вы уже в команде')
         return redirect('dota:team')
