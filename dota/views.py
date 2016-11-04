@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.views import generic
 from dota.models import Team
+import random
 
 from .models import Article
 
@@ -61,3 +62,26 @@ def join(request):
         else:
             messages.error(request, 'В этой команде больше нет свободных мест')
             return redirect('dota:team')
+
+
+def create_team(request):
+    user = request.user
+    name = request.POST.getlist('name', False)
+    if request.method != 'POST':
+        return redirect('dota:team')
+    if not name:
+        messages.error(request, 'Вы не ввели название команды')
+        return redirect('dota:team')
+    name = name[0]
+    if user.userprofile.team_id == -1:
+        # TODO change int to string
+        team = Team.objects.create(invite_key=str(random.randint(0, 10000)), name=name)
+        team.save()
+        user.userprofile.team_id = team.id
+        user.userprofile.captain = 1
+        user.userprofile.save()
+        messages.success(request, 'Вы создали команду')
+        return redirect('dota:index')
+    else:
+        messages.error(request, 'Вы уже в команде')
+        return redirect('dota:team')
