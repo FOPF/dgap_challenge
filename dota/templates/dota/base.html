@@ -4,31 +4,44 @@
     <meta charset="UTF-8">
     <title>Кубок ФОПФа</title>
 
+    {% load bootstrap3 %}
+    {% bootstrap_css %}
+
     {% load staticfiles %}
     <link href="{% static 'dota/style.css' %}" rel="stylesheet">
-
+{#    <link href="{% static 'dota/sidebar.css' %}" rel="stylesheet">#}
 
 </head>
 <body>
-    <nav>
-        <div class="controls">
-            <ul>
+<div class="container">
+    <nav role="navigation" class="navbar navbar-default">
+        <div class=container-fluid">
+{#            <div class="row">#}
+            <ul class="nav navbar-nav">
                 <li><a href="{% url "dota:article_list" %}">Новости</a></li>
                 <li><a href="{% url "dota:tournament" %}">Турнир</a></li>
                 <li><a href="{% url "dota:live" %}">Трансляция</a></li>
 
             </ul>
-        </div>
-        <div class="profile">
-            {% if page_obj.0 %}
-                <p>Hello, user</p>
-            {% else %}
-                <li><a href="{% url 'social:begin' 'vk-oauth2' %}?next={% url 'dota:index' %}">Войти через vk</a></li>
-            {% endif %}
+
+            <ul class="nav navbar-nav navbar-right">
+                {% if is_authenticated %}
+                    <li>Hello, user</li>
+                {% else %}
+                    <li><a href="{% url 'social:begin' 'vk-oauth2' %}?next={% url 'dota:index' %}">Войти через vk</a></li>
+                {% endif %}
+            </ul>
         </div>
     </nav>
 
-    {% block content %}
-    {% endblock %}
+    <div class="container-fluid main">
+{#        <div class="row">#}
+{#            <div class="col-md-10 col-md-offset-1 col-lg-6 col-lg-offset-3">#}
+                {% block content %}
+                {% endblock %}
+{#            </div>#}
+{#        </div>#}
+    </div>
+</div>
 </body>
 </html>
