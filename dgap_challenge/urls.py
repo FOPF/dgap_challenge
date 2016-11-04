@@ -20,6 +20,6 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^dota/', include('dota.urls', namespace='dota')),
+    url(r'^login/', include('social.apps.django_app.urls', namespace='social')),
     url(r'^', include('dota.urls', namespace='dota')),
-    url('', include('social.apps.django_app.urls', namespace='social')),
 ]
