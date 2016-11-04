@@ -54,6 +54,7 @@ MIDDLEWARE_CLASSES = (
 
 AUTHENTICATION_BACKENDS = (
     'social.backends.vk.VKOAuth2',
+    'django.contrib.auth.backends.ModelBackend'
 )
 
 ROOT_URLCONF = 'dgap_challenge.urls'
