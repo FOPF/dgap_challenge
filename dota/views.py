@@ -137,11 +137,23 @@ def leave_team(request):
     user = request.user
     if request.method != 'POST':
         return redirect('dota:team')
-    if user.userprofile.team_id == -1:
+    team_id = user.userprofile.team_id
+    if team_id == -1:
         messages.error(request, 'Вы не состоите ни в одной команде')
         return redirect('dota:team')
     user.userprofile.team_id = -1
-    user.userprofile.captain = False
     user.userprofile.save()
+    if user.userprofile.captain:
+        import random
+        members = Team.objects.get(id=team_id).get_members()
+        if len(members) != 0:
+            new_captain = random.choice(members)
+            new_captain.captain = True
+            new_captain.save()
+        user.userprofile.captain = False
+        user.userprofile.save()
+    team = Team.objects.get(id=team_id)
+    if len(team.get_members()) == 0:
+        team.delete()
     messages.success(request, 'Вы вышли из команды')
     return redirect('dota:team')
