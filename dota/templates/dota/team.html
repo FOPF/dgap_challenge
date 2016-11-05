@@ -36,7 +36,7 @@
                     <button>Выйти</button>
                 </form>
             </div>
-        {% else %}
+        {% elif not user.userprofile.participant %}
             <div class="article">
                 <h2>Присоединться к существующей команде</h2>
                 <form name="invite_key" method="post" action={% url 'dota:join' %}>

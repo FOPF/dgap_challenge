@@ -1,13 +1,15 @@
 {% extends "dota/base.html" %}
 {% load staticfiles%}
 {% block content %}
-    <h1>
-        Старт турнира 13 ноября. Ждем Вас!
-    </h1>
-    <p>Для участия необходима <a href="http://dgap-mipt.ru/sport/dota/news/2/">регистрация</a></p>
-    <p>Заявки приминаются как от команд (полных и неполных), так и от индивидуальных участников</p>
-    <p>Окончание регистрации - 11 ноября в 12:00</p>
-{#    #TODO STATIC#}
-{#    <img src="{% static "dota/background.jpg" %}" width="100%">#}
-    <img src="http://dgap-mipt.ru/images/background.jpg" width="100%">
+    <div class="article">
+        <h2>
+            Старт турнира 13 ноября. Ждем Вас!
+        </h2>
+        <p>Для участия необходима <a href="http://dgap-mipt.ru/sport/dota/news/2/">регистрация</a></p>
+        <p>Заявки приминаются как от команд (полных и неполных), так и от индивидуальных участников</p>
+        <p>Окончание регистрации - 11 ноября в 12:00</p>
+    {#    #TODO STATIC#}
+    {#    <img src="{% static "dota/background.jpg" %}" width="100%">#}
+        <img src="http://dgap-mipt.ru/images/background.jpg" width="100%">
+    </div>
 {% endblock %}
