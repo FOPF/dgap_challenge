@@ -89,7 +89,7 @@ def join(request):
             user.userprofile.team = team
             user.userprofile.save()
             messages.success(request, 'Вы вступили в команду')
-            return redirect('dota:team')
+            return redirect('dota:index')
         else:
             messages.error(request, 'В этой команде больше нет свободных мест')
             return redirect('dota:team')
