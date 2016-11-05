@@ -18,6 +18,25 @@
                 {% endif %}
             </div>
         {% elif not user.userprofile.participant %}
+            <h2>{{ team.name }}</h2>
+            <p>Пригласительный код: <b>{{ team.invite_key }}</b></p>
+            {% for member in members %}
+                <p><b>{{ member.user.first_name }} {{ member.user.last_name }}</b></p>
+            {% empty %}
+                <p>Нет участников</p>
+            {% endfor %}
+            {% if free > 0 %}
+                <p>Свободно мест: {{ free }}</p>
+            {% else %}
+                <p>Команда полнстью укомплектована</p>
+            {% endif %}
+            <div>
+                <form name="leave_team" method="post" action={% url 'dota:leave_team' %}>
+                    {% csrf_token %}
+                    <button>Выйти</button>
+                </form>
+            </div>
+        {% else %}
             <div class="article">
                 <h2>Присоединться к существующей команде</h2>
                 <form name="invite_key" method="post" action={% url 'dota:join' %}>
@@ -42,7 +61,7 @@
                 <form name="single_gamer" method="post" action={% url 'dota:single_gamer' %}>
                     {% csrf_token %}
                     <p><b>Зарегистрируйтесь как индивидуальный участник, и мы подберем Вам команду</b></p>
-                    <input type="text" name="mmr" size="40">
+                    <input type="text" name="mmr" size="40"><p>Приерный </p>
                     <input type="submit" value="Зарегистрироваться">
                 </form>
             </div>
