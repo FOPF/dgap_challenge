@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^create_team/$', login_required(views.create_team), name="create_team"),
     url(r'^single_gamer/$', login_required(views.single_gamer), name="single_gamer"),
     url(r'^leave_team/$', login_required(views.leave_team), name="leave_team"),
+    url(r'^refuse/$', login_required(views.refuse), name="refuse"),
 ]
