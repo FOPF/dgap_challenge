@@ -8,7 +8,7 @@
             {% for member in members %}
                 <p><b>{{ member.user.first_name }} {{ member.user.last_name }}</b></p>
             {% empty %}
-                <<p>Нет участников</p>
+                <p>Нет участников</p>
             {% endfor %}
             {% if free > 0 %}
                 <p>Свободно мест: {{ free }}</p>
