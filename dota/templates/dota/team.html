@@ -18,7 +18,7 @@
         {% else %}
             <p>Вы ещё не вступили ни в одну из команд</p>
 
-            <div>
+            <div class="article">
                 <form name="invite_key" method="post" action={% url 'dota:join' %}>
                     {% csrf_token %}
                     <p><b>Если у вас есть ключ для вступления в команду, пожалуйста, введите его в данное поле</b></p>
@@ -26,7 +26,7 @@
                     <input type="submit">
                 </form>
             </div>
-            <div>
+            <div class="article">
                 <form name="create_team" method="post" action={% url 'dota:create_team' %}>
                     {% csrf_token %}
                     <p><b>Вы можете создать свою команду</b></p>
