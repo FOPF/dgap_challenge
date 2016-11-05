@@ -16,13 +16,12 @@
                 {% else %}
                     <p>Команда полнстью укомплектована</p>
                 {% endif %}
-            </div>
-            <div>
                 <form name="leave_team" method="post" action={% url 'dota:leave_team' %}>
                     {% csrf_token %}
-                    <button>Выйти</button>
+                    <button>Выйти из команды</button>
                 </form>
             </div>
+
         {% elif not user.userprofile.participant %}
             <div class="article">
                 <h2>Присоединиться к существующей команде</h2>
