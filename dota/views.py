@@ -10,8 +10,8 @@ from dgap_challenge.settings import MAX_TEAM_SIZE
 from .models import Article, Team, UserProfile
 
 
-class ArticlesList(generic.ListView): # представление в виде списка
-    model = Article                   # модель для представления
+class ArticlesList(generic.ListView):
+    model = Article
 
 
 class ArticleDetail(generic.DetailView):
