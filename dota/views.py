@@ -132,3 +132,16 @@ def single_gamer(request):
     else:
         messages.error(request, 'Вы уже в команде')
         return redirect('dota:team')
+
+def leave_team(request):
+    user = request.user
+    if request.method != 'POST':
+        return redirect('dota:team')
+    if user.userprofile.team_id == -1:
+        messages.error(request, 'Вы не состоите ни в одной команде')
+        return redirect('dota:team')
+    user.userprofile.team_id = -1
+    user.userprofile.captain = False
+    user.userprofile.save()
+    messages.success(request, 'Вы вышли из команды')
+    return redirect('dota:team')
