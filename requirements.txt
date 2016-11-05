@@ -12,10 +12,10 @@ Jinja2==2.8
 jsonschema==2.5.1
 oauthlib==1.0.3
 python-social-auth==0.2.12
-python3-openid==3.0.7
+python3-openid==3.0.10
 requests==2.7.0
 requests-oauthlib==0.5.0
-sessioninstaller==0.0.0
+# sessioninstaller==0.0.0
 urllib3==1.13.1
 user-agents==0.3.2
 virtualenv==15.0.3

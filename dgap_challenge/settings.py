@@ -145,4 +145,6 @@ STATIC_URL = '/static/'
 
 MAX_TEAM_SIZE = 5
 
+LOGIN_URL = '/sport/dota/'
+
 from dgap_challenge.local_settings import *
