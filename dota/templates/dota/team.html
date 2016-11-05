@@ -17,19 +17,6 @@
                     <p>Команда полнстью укомплектована</p>
                 {% endif %}
             </div>
-        {% elif not user.userprofile.participant %}
-            <h2>{{ team.name }}</h2>
-            <p>Пригласительный код: <b>{{ team.invite_key }}</b></p>
-            {% for member in members %}
-                <p><b>{{ member.user.first_name }} {{ member.user.last_name }}</b></p>
-            {% empty %}
-                <p>Нет участников</p>
-            {% endfor %}
-            {% if free > 0 %}
-                <p>Свободно мест: {{ free }}</p>
-            {% else %}
-                <p>Команда полнстью укомплектована</p>
-            {% endif %}
             <div>
                 <form name="leave_team" method="post" action={% url 'dota:leave_team' %}>
                     {% csrf_token %}
