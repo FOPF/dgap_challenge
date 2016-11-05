@@ -104,6 +104,10 @@ def create_team(request):
         messages.error(request, 'Вы не ввели название команды')
         return redirect('dota:team')
     name = name[0]
+    if len(Team.objects.filter(name=name)) != 0:
+        messages.error(request, 'Команда с таким именем уже существует')
+        return redirect('dota:team')
+
     if user.userprofile.team_id == -1:
         # TODO change int to string
         team = Team.objects.create(invite_key=str(random.randint(0, 10000)), name=name)
@@ -140,9 +144,21 @@ def leave_team(request):
     if user.userprofile.team_id == -1:
         messages.error(request, 'Вы не состоите ни в одной команде')
         return redirect('dota:team')
+    team_id = user.userprofile.team_id
     user.userprofile.team_id = -1
-    user.userprofile.captain = False
     user.userprofile.participant = False
+    user.userprofile.save()
+    if user.userprofile.captain:
+        import random
+        members = Team.objects.get(id=team_id).get_members()
+        if len(members) != 0:
+            new_captain = random.choice(members)
+            new_captain.captain = True
+            new_captain.save()
+        user.userprofile.captain = False
+    team = Team.objects.get(id=team_id)
+    if len(team.get_members()) == 0:
+        team.delete()
     user.userprofile.save()
     messages.success(request, 'Вы вышли из команды')
     return redirect('dota:team')
