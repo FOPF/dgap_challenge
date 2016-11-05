@@ -1,0 +1,8 @@
+**/__pycache__
+dgap_challenge/local_settings.py
+**/migrations
+logs/
+pids/
+static/
+venv/
+db.sqlite3
