@@ -67,6 +67,7 @@ def join(request):
     if not user.is_authenticated():
         messages.error(request, 'Вы не вошли как зарегистрированный пользователь')
         return redirect('dota:team')
+
     invite_key = request.POST.getlist('invite_key', False)
     if not invite_key:
         messages.error(request, 'Вы ввели пустой ключ')
@@ -89,6 +90,11 @@ def join(request):
             user.userprofile.team = team
             user.userprofile.save()
             messages.success(request, 'Вы вступили в команду')
+
+            if user.userprofile.participant:
+                user.userprofile.participant = False
+                user.userprofile.save()
+                messages.info(request, 'Вы отказались от индивидуальной заявки, так как вступили в команду')
             return redirect('dota:index')
         else:
             messages.error(request, 'В этой команде больше нет свободных мест')
@@ -116,10 +122,28 @@ def create_team(request):
         user.userprofile.captain = 1
         user.userprofile.save()
         messages.success(request, 'Вы создали команду')
+        if user.userprofile.participant:
+            user.userprofile.participant = False
+            user.userprofile.save()
+            messages.info(request, 'Вы отказались от индивидуальной заявки, так создали команду')
         return redirect('dota:team')
     else:
         messages.error(request, 'Вы уже в команде')
         return redirect('dota:team')
+
+def refuse(request):
+    user = request.user
+    if request.method != 'POST':
+        return redirect('dota:team')
+
+    if user.userprofile.participant:
+        user.userprofile.participant = False
+        messages.success(request, 'Вы отказались от индивидуальной заявки')
+        return redirect('dota:team')
+    else:
+        messages.error(request, 'Вы не подавали заявку')
+        return redirect('dota:team')
+
 
 def single_gamer(request):
     user = request.user
