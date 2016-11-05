@@ -142,6 +142,7 @@ def leave_team(request):
         return redirect('dota:team')
     user.userprofile.team_id = -1
     user.userprofile.captain = False
+    user.userprofile.participant = False
     user.userprofile.save()
     messages.success(request, 'Вы вышли из команды')
     return redirect('dota:team')
