@@ -116,3 +116,19 @@ def create_team(request):
     else:
         messages.error(request, 'Вы уже в команде')
         return redirect('dota:team')
+
+def single_gamer(request):
+    user = request.user
+    mmr = request.POST.getlist('mmr', False)
+    if request.method != 'POST':
+        return redirect('dota:team')
+
+    if user.userprofile.team_id == -1:
+        # TODO change int to string
+        user.userprofile.participant = True
+        user.userprofile.save()
+        messages.success(request, 'Ваша заявка принята')
+        return redirect('dota:team')
+    else:
+        messages.error(request, 'Вы уже в команде')
+        return redirect('dota:team')

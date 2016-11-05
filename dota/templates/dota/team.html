@@ -16,10 +16,8 @@
                 <p>Команда полнстью укомплектована</p>
             {% endif %}
         {% else %}
-            <p>Вы ещё не вступили ни в одну из команд</p>
-
             <div class="article">
-                <h2>Войти в существующую команду</h2>
+                <h2>Присоединться к существующей команде</h2>
                 <form name="invite_key" method="post" action={% url 'dota:join' %}>
 
                     {% csrf_token %}
@@ -35,6 +33,15 @@
                     <p><b>Введите название команды</b></p>
                     <input type="text" name="name" size="40">
                     <input type="submit" value="Создать">
+                </form>
+            </div>
+            <div class="article">
+                <h2>Отправить индивидуальную заявку</h2>
+                <form name="single_gamer" method="post" action={% url 'dota:single_gamer' %}>
+                    {% csrf_token %}
+                    <p><b>Зарегистрируйтесь как индивидуальный участник, и мы подберем Вам команду</b></p>
+                    <input type="text" name="mmr" size="40">
+                    <input type="submit" value="Зарегистрироваться">
                 </form>
             </div>
         {% endif %}
