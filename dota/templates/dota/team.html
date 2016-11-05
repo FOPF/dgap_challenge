@@ -48,7 +48,7 @@
                 <form name="single_gamer" method="post" action={% url 'dota:single_gamer' %}>
                     {% csrf_token %}
                     <p><b>Зарегистрируйтесь как индивидуальный участник, и мы подберем Вам команду</b></p>
-                    <p>Примерный ММР (ноябязательно): </p><input type="number" name="mmr" size="40"><p>Приерный </p>
+                    <p>Примерный ММР (ноябязательно): </p><input type="number" value="1000" name="mmr" size="40">
                     <input type="submit" value="Зарегистрироваться">
                 </form>
             </div>
