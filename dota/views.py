@@ -104,6 +104,10 @@ def create_team(request):
         messages.error(request, 'Вы не ввели название команды')
         return redirect('dota:team')
     name = name[0]
+    if len(Team.objects.filter(name=name)) != 0:
+        messages.error(request, 'Команда с таким именем уже существует')
+        return redirect('dota:team')
+
     if user.userprofile.team_id == -1:
         # TODO change int to string
         team = Team.objects.create(invite_key=str(random.randint(0, 10000)), name=name)
