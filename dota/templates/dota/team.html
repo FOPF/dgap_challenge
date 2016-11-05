@@ -25,7 +25,7 @@
             </div>
         {% elif not user.userprofile.participant %}
             <div class="article">
-                <h2>Присоединться к существующей команде</h2>
+                <h2>Присоединиться к существующей команде</h2>
                 <form name="invite_key" method="post" action={% url 'dota:join' %}>
 
                     {% csrf_token %}
@@ -48,7 +48,7 @@
                 <form name="single_gamer" method="post" action={% url 'dota:single_gamer' %}>
                     {% csrf_token %}
                     <p><b>Зарегистрируйтесь как индивидуальный участник, и мы подберем Вам команду</b></p>
-                    <p>Примерный ММР (ноябязательно): </p><input type="number" value="1000" name="mmr" size="40">
+                    <p>Примерный ММР (необязательно): </p><input type="number" value="1000" name="mmr" size="40">
                     <input type="submit" value="Зарегистрироваться">
                 </form>
             </div>
