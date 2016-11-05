@@ -138,6 +138,7 @@ def refuse(request):
 
     if user.userprofile.participant:
         user.userprofile.participant = False
+        user.userprofile.save()
         messages.success(request, 'Вы отказались от индивидуальной заявки')
         return redirect('dota:team')
     else:
