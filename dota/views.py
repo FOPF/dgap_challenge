@@ -12,6 +12,7 @@ from .models import Article, Team, UserProfile
 
 class ArticlesList(generic.ListView):
     model = Article
+    queryset = model.objects.order_by('-datetime')
 
 
 class ArticleDetail(generic.DetailView):
