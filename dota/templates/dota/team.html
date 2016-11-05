@@ -3,19 +3,21 @@
 {% block content %}
     <div class="team">
         {% if user.userprofile.team_id != -1 %}
-            <h2>{{ team.name }}</h2>
-            <p>Пригласительный код: <b>{{ team.invite_key }}</b></p>
-            {% for member in members %}
-                <p><b>{{ member.user.first_name }} {{ member.user.last_name }}</b></p>
-            {% empty %}
-                <p>Нет участников</p>
-            {% endfor %}
-            {% if free > 0 %}
-                <p>Свободно мест: {{ free }}</p>
-            {% else %}
-                <p>Команда полнстью укомплектована</p>
-            {% endif %}
-        {% else %}
+            <div class="article">
+                <h2>{{ team.name }}</h2>
+                <p>Пригласительный код: <b>{{ team.invite_key }}</b></p>
+                {% for member in members %}
+                    <p><b>{{ member.user.first_name }} {{ member.user.last_name }}</b></p>
+                {% empty %}
+                    <p>Нет участников</p>
+                {% endfor %}
+                {% if free > 0 %}
+                    <p>Свободно мест: {{ free }}</p>
+                {% else %}
+                    <p>Команда полнстью укомплектована</p>
+                {% endif %}
+            </div>
+        {% elif not user.userprofile.participant %}
             <div class="article">
                 <h2>Присоединться к существующей команде</h2>
                 <form name="invite_key" method="post" action={% url 'dota:join' %}>
@@ -43,6 +45,11 @@
                     <input type="text" name="mmr" size="40">
                     <input type="submit" value="Зарегистрироваться">
                 </form>
+            </div>
+        {% else %}
+            <div class="article">
+                <h2>Индивидуальный участник</h2>
+                <p><b>Ваша заявка принята. Скоро мы подберем Вам команду:)</b></p>
             </div>
         {% endif %}
     </div>
