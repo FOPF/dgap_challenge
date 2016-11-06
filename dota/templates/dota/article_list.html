@@ -1,15 +1,19 @@
 {% extends "dota/base.html" %}
 
     {% block content %}
-    <div class="article_list">
+        <div class="panel-group">
         {% for article in object_list %}
-            <div class="article">
-                <p>{{ article.datetime }}</p>
-                <h2><a href="{% url "dota:article_detail" article.id %}">{{ article.title }}</a></h2>
-                <div>{{ article.content | safe}}</div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2><a href="{% url "dota:article_detail" article.id %}">{{ article.title }}</a></h2>
+                </div>
+                <div class="panel-body">
+                    <p>{{ article.datetime }}</p>
+                    <div>{{ article.content | safe}}</div>
+                </div>
             </div>
         {% empty %}
         <p>Нет постов</p>
         {% endfor %}
-    </div>
+        </div>
     {% endblock %}

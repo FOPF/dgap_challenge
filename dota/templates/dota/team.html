@@ -3,68 +3,98 @@
 {% block content %}
     <div class="team">
         {% if user.userprofile.team_id != -1 %}
-            <div class="article">
-                <h2>{{ team.name }}</h2>
-                <p>Пригласительный код: <b>{{ team.invite_key }}</b></p>
-                {% for member in members %}
-                    <p><b>{{ member.user.first_name }} {{ member.user.last_name }}</b></p>
-                {% empty %}
-                    <p>Нет участников</p>
-                {% endfor %}
-                {% if free > 0 %}
-                    <p>Свободно мест: {{ free }}</p>
-                {% else %}
-                    <p>Команда полнстью укомплектована</p>
-                {% endif %}
-                <form name="leave_team" method="post" action={% url 'dota:leave_team' %}>
-                    {% csrf_token %}
-                    <button class="btn btn-default">Выйти из команды</button>
-                </form>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>{{ team.name }}</h3>
+                </div>
+                <div class="panel-body">
+                    <p>Пригласительный код: <b>{{ team.invite_key }}</b></p>
+                    {% for member in members %}
+                        <p><b>{{ member.user.first_name }} {{ member.user.last_name }}</b></p>
+                    {% empty %}
+                        <p>Нет участников</p>
+                    {% endfor %}
+                    {% if free > 0 %}
+                        <p>Свободно мест: {{ free }}</p>
+                    {% else %}
+                        <p>Команда полнстью укомплектована</p>
+                    {% endif %}
+                    <form name="leave_team" method="post" action={% url 'dota:leave_team' %}>
+                        {% csrf_token %}
+                        <button class="btn btn-default">Выйти из команды</button>
+                    </form>
+                </div>
             </div>
 
         {% elif not user.userprofile.participant %}
-            <div class="article">
-                <h2>Присоединиться к существующей команде</h2>
-                <form name="invite_key" method="post" action={% url 'dota:join' %} class="form-inline">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="invite_key">Пригласительный код:</label>
-                        <input type="text" name="invite_key" size="40" class="form-control">
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3>Присоединиться к существующей команде</h3>
                     </div>
-                    <input type="submit" value="Вступить" class="btn btn-default">
-                </form>
-            </div>
-            <div class="article">
-                <h2>Создать новую команду</h2>
-                <form name="create_team" method="post" action={% url 'dota:create_team' %} class="form-inline">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="name">Название команды:</label>
-                        <input type="text" name="name" size="40" class="form-control">
+                    <div class="panel-body">
+                        <form name="invite_key" method="post" action={% url 'dota:join' %} class="form-inline">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="invite_key">Пригласительный код:</label>
+                                <input type="text" name="invite_key" size="40" class="form-control">
+                            </div>
+                            <input type="submit" value="Вступить" class="btn btn-default">
+                        </form>
                     </div>
-                    <input type="submit" value="Создать" class="btn btn-default">
-                </form>
-            </div>
-            <div class="article">
-                <h2>Отправить индивидуальную заявку</h2>
-                <p><b>Зарегистрируйтесь как индивидуальный участник, и мы подберем Вам команду</b></p>
-                <form name="single_gamer" method="post" action={% url 'dota:single_gamer' %} class="form-inline">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="mmr">Примерный ММР (необязательно):</label>
-                        <input type="number" value="1000" name="mmr" size="40" class="form-control">
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3>Создать новую команду</h3>
                     </div>
-                    <input type="submit" value="Зарегистрироваться" class="btn btn-default">
-                </form>
+                    <div class="panel-body">
+                        <form name="create_team" method="post" action={% url 'dota:create_team' %} class="form-inline">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="name">Название команды:</label>
+                                <input type="text" name="name" size="40" class="form-control">
+                            </div>
+                            <input type="submit" value="Создать" class="btn btn-default">
+                        </form>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3>Отправить индивидуальную заявку</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p><b>Зарегистрируйтесь как индивидуальный участник, и мы подберем Вам команду</b></p>
+                        <form name="single_gamer" method="post" action={% url 'dota:single_gamer' %} class="form-inline">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label>Приемлимые роли:</label>
+                                <label class="checkbox-inline"><input type="checkbox" value="1">Мидер</label>
+                                <label class="checkbox-inline"><input type="checkbox" value="2">Керри</label>
+                                <label class="checkbox-inline"><input type="checkbox" value="3">Хардлайнер</label>
+                                <label class="checkbox-inline"><input type="checkbox" value="4">Семисаппорт</label>
+                                <label class="checkbox-inline"><input type="checkbox" value="5">Фуллсаппорт</label>
+                            </div>
+                            <div class="form-group">
+                                <label for="mmr">Примерный ММР (необязательно):</label>
+                                <input type="number" value="1000" name="mmr" size="40" class="form-control">
+                            </div>
+                            <input type="submit" value="Зарегистрироваться" class="btn btn-default">
+                        </form>
+                    </div>
+                </div>
             </div>
         {% else %}
-            <div class="article">
-                <h2>Индивидуальный участник</h2>
-                <p><b>Ваша заявка принята. Скоро мы подберем Вам команду:)</b></p>
-                <form name="refuse" method="post" action={% url 'dota:refuse' %}>
-                    {% csrf_token %}
-                    <button class="btn btn-default">Отозвать заявку</button>
-                </form>
+            <div class="panel panel-heading">
+                <div class="panel-heading">
+                    <h3>Индивидуальный участник</h3>
+                </div>
+                <div class="panel-body">
+                    <p><b>Ваша заявка принята. Скоро мы подберем Вам команду:)</b></p>
+                    <form name="refuse" method="post" action={% url 'dota:refuse' %}>
+                        {% csrf_token %}
+                        <button class="btn btn-default">Отозвать заявку</button>
+                    </form>
+                </div>
             </div>
         {% endif %}
     </div>

@@ -1,15 +1,17 @@
 {% extends "dota/base.html" %}
 {% load staticfiles%}
 {% block content %}
-    <div class="article">
-        <h2>
-            Старт турнира 13 ноября. Ждем Вас!
-        </h2>
-        <p>Для участия необходима <a href="{% url "dota:team" %}">регистрация</a></p>
-        <p>Заявки приминаются как от команд (полных и неполных), так и от индивидуальных участников</p>
-        <p>Окончание регистрации - 11 ноября в 12:00</p>
-        <div class="article-img">
-            <img src="{% static "dota/tournament.jpg" %}" width="100%">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2>Старт турнира 13 ноября. Ждем Вас!</h2>
+        </div>
+        <div class="panel-body">
+            <p>Для участия необходима <a href="{% url "dota:team" %}">регистрация</a></p>
+            <p>Заявки приминаются как от команд (полных и неполных), так и от индивидуальных участников</p>
+            <p>Окончание регистрации - 11 ноября в 12:00</p>
+            <div class="article-img">
+                <img src="{% static "dota/tournament.jpg" %}">
+            </div>
         </div>
     </div>
 {% endblock %}

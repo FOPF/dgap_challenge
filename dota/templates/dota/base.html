@@ -11,10 +11,11 @@
 
     {% load staticfiles %}
     <link href="{% static 'dota/favicon.ico' %}" rel="shortcut icon" type="image/vnd.microsoft.icon">
-    <link href="{% static 'dota/style.css' %}" rel="stylesheet">
-{#    <link href="{% static 'dota/bootstrap.min.css' %}" rel="stylesheet">#}
+    <link href="{% static 'dota/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'dota/bootswatch.css' %}" rel="stylesheet">
-{#    <link href="{% static 'dota/variables.css' %}" rel="stylesheet">#}
+    <link href="{% static 'dota/variables.css' %}" rel="stylesheet">
+
+    <link href="{% static 'dota/style.css' %}" rel="stylesheet">
 </head>
 <body>
 <div class="container">
@@ -38,7 +39,7 @@
 
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
-                    <li><a>{{ user.first_name }}</a></li>
+                    <p class="navbar-text">{{ user.first_name }}</p>
                     <li><a href="{%  url "dota:team" %}">Команда</a></li>
                     <li><a href="{% url "dota:logout" %}">Выйти</a></li>
                 {% else %}
