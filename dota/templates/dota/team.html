@@ -39,7 +39,7 @@
                                 <label for="invite_key">Пригласительный код:</label>
                                 <input type="text" name="invite_key" size="40" class="form-control input-sm">
                             </div>
-                            <input type="submit" value="Вступить" class="btn btn-default">
+                            <input type="submit" value="Вступить" class="btn btn-default btn-sm">
                         </form>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
                                 <label for="name">Название команды:</label>
                                 <input type="text" name="name" size="40" class="form-control input-sm">
                             </div>
-                            <input type="submit" value="Создать" class="btn btn-default">
+                            <input type="submit" value="Создать" class="btn btn-default btn-sm">
                         </form>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                         <form name="single_gamer" method="post" action={% url 'dota:single_gamer' %} class="form-inline">
                             {% csrf_token %}
                             <div class="form-group">
-                                <label>Приемлимые роли:</label>
+                                <label>Приемлемые роли:</label>
                                 <label class="checkbox-inline"><input type="checkbox" value="1">Мидер</label>
                                 <label class="checkbox-inline"><input type="checkbox" value="2">Керри</label>
                                 <label class="checkbox-inline"><input type="checkbox" value="3">Хардлайнер</label>
@@ -78,7 +78,7 @@
                                 <label for="mmr">Примерный ММР (необязательно):</label>
                                 <input type="number" value="1000" name="mmr" size="40" class="form-control input-sm">
                             </div>
-                            <input type="submit" value="Зарегистрироваться" class="btn btn-default">
+                            <input type="submit" value="Зарегистрироваться" class="btn btn-default btn-sm">
                         </form>
                     </div>
                 </div>
