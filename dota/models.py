@@ -19,7 +19,7 @@ class Team(models.Model):
         return UserProfile.objects.filter(team=self).all()
 
     def __str__(self):
-        return self.name
+        return self.name + ": " + str(len(self.get_members()))
 
 
 class UserProfile(models.Model):

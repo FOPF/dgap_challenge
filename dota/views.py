@@ -166,16 +166,11 @@ def single_gamer(request):
     role = request.POST.getlist('role', False)
     if role:
         role = reduce(lambda x, y: int(x) + int(y), role, 0)
-        if role & 1 != 0:
-            user.userprofile.mider = True
-        if role & 2 != 0:
-            user.userprofile.carry = True
-        if role & 4 != 0:
-            user.userprofile.hardliner = True
-        if role & 8 != 0:
-            user.userprofile.semisupport = True
-        if role & 16 != 0:
-            user.userprofile.fullsupport = True
+        user.userprofile.mider = role & 1 != 0
+        user.userprofile.carry = role & 2 != 0
+        user.userprofile.hardliner = role & 4 != 0
+        user.userprofile.semisupport = role & 8 != 0
+        user.userprofile.fullsupport = role & 16 != 0
         user.userprofile.save()
 
     if user.userprofile.team_id == -1:
