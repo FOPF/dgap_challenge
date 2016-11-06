@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib.auth import logout as auth_logout
 import random
+from functools import reduce
 
 from dgap_challenge.settings import MAX_TEAM_SIZE
 from .models import Article, Team, UserProfile
@@ -149,9 +150,10 @@ def refuse(request):
 
 def single_gamer(request):
     user = request.user
-    mmrs = request.POST.getlist('mmr', False)
     if request.method != 'POST':
         return redirect('dota:team')
+
+    mmrs = request.POST.getlist('mmr', False)
     if mmrs:
         try:
             mmr = int(mmrs[0])
@@ -160,6 +162,22 @@ def single_gamer(request):
             return redirect('dota:team')
     else:
         mmr = 0
+
+    role = request.POST.getlist('role', False)
+    if role:
+        role = reduce(lambda x, y: int(x) + int(y), role, 0)
+        if role & 1 != 0:
+            user.userprofile.mider = True
+        if role & 2 != 0:
+            user.userprofile.carry = True
+        if role & 4 != 0:
+            user.userprofile.hardliner = True
+        if role & 8 != 0:
+            user.userprofile.semisupport = True
+        if role & 16 != 0:
+            user.userprofile.fullsupport = True
+        user.userprofile.save()
+
     if user.userprofile.team_id == -1:
         # TODO change int to string
         user.userprofile.participant = True
