@@ -149,13 +149,21 @@ def refuse(request):
 
 def single_gamer(request):
     user = request.user
-    mmr = request.POST.getlist('mmr', False)
+    mmrs = request.POST.getlist('mmr', False)
     if request.method != 'POST':
         return redirect('dota:team')
-
+    if mmrs:
+        try:
+            mmr = int(mmrs[0])
+        except ValueError:
+            messages.error(request, 'ММР должен быть целым числом')
+            return redirect('dota:team')
+    else:
+        mmr = 0
     if user.userprofile.team_id == -1:
         # TODO change int to string
         user.userprofile.participant = True
+        user.userprofile.mmr = mmr
         user.userprofile.save()
         messages.success(request, 'Ваша заявка принята')
         return redirect('dota:team')

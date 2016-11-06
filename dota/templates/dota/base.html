@@ -59,7 +59,7 @@
 
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
-                    <li><a>Привет, {{ user.first_name }}</a></li>
+                    <li><a>{{ user.first_name }}</a></li>
                     <li><a href="{%  url "dota:team" %}">Команда</a></li>
                     <li><a href="{% url "dota:logout" %}">Выйти</a></li>
                 {% else %}
