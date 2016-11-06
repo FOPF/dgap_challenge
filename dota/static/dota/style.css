@@ -1,19 +1,33 @@
 @media (min-width: 768px) {
-  .container {
+  .main,
+  nav .container-fluid {
     max-width: 730px;
   }
 }
-nav .container-fluid {
+.container {
+  width: 100%;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.container-fluid {
   padding: 0px;
+}
+body {
+  padding-top: 70px;
+}
+.navbar {
+  border-radius: 0px;
+  border-left: none;
+  border-right: none;
 }
 .navbar > .container-fluid .navbar-brand {
   margin-left: 0px;
 }
-.main .article {
-  border-radius: 10px;
-  border: 2px solid gray;
-  padding: 15px;
-  margin-bottom: 10px;
+.navbar-right {
+  margin-right: 0px;
+}
+.panel-group .panel {
+  margin-bottom: 20px;
 }
 .article-img {
   border-radius: 3px;
@@ -27,6 +41,11 @@ h2,
 h3,
 a {
   color: #c33d2b;
+}
+.panel h1,
+h2,
+h3 {
+  margin-top: 10px;
 }
 .messages .alert {
   background-color: #64281f;
