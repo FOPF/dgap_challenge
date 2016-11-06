@@ -51,7 +51,7 @@
                 <form name="single_gamer" method="post" action={% url 'dota:single_gamer' %} class="form-inline">
                     {% csrf_token %}
                     <div class="form-group">
-                        <label for="mmr">Примерный ММР:</label>
+                        <label for="mmr">Примерный ММР (необязательно):</label>
                         <input type="number" value="1000" name="mmr" size="40" class="form-control">
                     </div>
                     <input type="submit" value="Зарегистрироваться" class="btn btn-default">
