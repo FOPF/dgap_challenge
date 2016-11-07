@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib.auth import logout as auth_logout
 import random
+from functools import reduce
 
 from dgap_challenge.settings import MAX_TEAM_SIZE
 from .models import Article, Team, UserProfile
@@ -117,7 +118,7 @@ def create_team(request):
 
     if user.userprofile.team_id == -1:
         # TODO change int to string
-        team = Team.objects.create(invite_key=str(random.randint(0, 10000)), name=name)
+        team = Team.objects.create(invite_key=str(random.randint(0, 9999)), name=name)
         team.save()
         user.userprofile.team_id = team.id
         user.userprofile.captain = 1
@@ -149,9 +150,10 @@ def refuse(request):
 
 def single_gamer(request):
     user = request.user
-    mmrs = request.POST.getlist('mmr', False)
     if request.method != 'POST':
         return redirect('dota:team')
+
+    mmrs = request.POST.getlist('mmr', False)
     if mmrs:
         try:
             mmr = int(mmrs[0])
@@ -160,6 +162,17 @@ def single_gamer(request):
             return redirect('dota:team')
     else:
         mmr = 0
+
+    role = request.POST.getlist('role', False)
+    if role:
+        role = reduce(lambda x, y: int(x) + int(y), role, 0)
+        user.userprofile.mider = role & 1 != 0
+        user.userprofile.carry = role & 2 != 0
+        user.userprofile.hardliner = role & 4 != 0
+        user.userprofile.semisupport = role & 8 != 0
+        user.userprofile.fullsupport = role & 16 != 0
+        user.userprofile.save()
+
     if user.userprofile.team_id == -1:
         # TODO change int to string
         user.userprofile.participant = True
