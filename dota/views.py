@@ -116,11 +116,11 @@ def create_team(request):
         messages.error(request, 'Команда с таким именем уже существует')
         return redirect('dota:team')
 
-    if user.userprofile.team_id == -1:
+    if user.userprofile.team is None:
         # TODO change int to string
         team = Team.objects.create(invite_key=str(random.randint(0, 9999)), name=name)
         team.save()
-        user.userprofile.team_id = team.id
+        user.userprofile.team = team
         user.userprofile.captain = 1
         user.userprofile.save()
         messages.success(request, 'Вы создали команду')
@@ -173,7 +173,7 @@ def single_gamer(request):
         user.userprofile.fullsupport = role & 16 != 0
         user.userprofile.save()
 
-    if user.userprofile.team_id == -1:
+    if user.userprofile.team is None:
         # TODO change int to string
         user.userprofile.participant = True
         user.userprofile.mmr = mmr
@@ -188,22 +188,21 @@ def leave_team(request):
     user = request.user
     if request.method != 'POST':
         return redirect('dota:team')
-    if user.userprofile.team_id == -1:
+    if user.userprofile.team is None:
         messages.error(request, 'Вы не состоите ни в одной команде')
         return redirect('dota:team')
-    team_id = user.userprofile.team_id
-    user.userprofile.team_id = -1
+    team = user.userprofile.team
+    user.userprofile.team = None
     user.userprofile.participant = False
     user.userprofile.save()
     if user.userprofile.captain:
         import random
-        members = Team.objects.get(id=team_id).get_members()
+        members = team.get_members()
         if len(members) != 0:
             new_captain = random.choice(members)
             new_captain.captain = True
             new_captain.save()
         user.userprofile.captain = False
-    team = Team.objects.get(id=team_id)
     if len(team.get_members()) == 0:
         team.delete()
     user.userprofile.save()

@@ -20,11 +20,11 @@
 <body>
 <div class="container">
     {% include 'dota/nav.html' %}
-    {% include 'dota/messages.html' %}
 
     <div class="container-fluid main">
 {#        <div class="row">#}
 {#            <div class="col-md-10 col-md-offset-1 col-lg-6 col-lg-offset-3">#}
+                {% include 'dota/messages.html' %}
                 {% block content %}
                 {% endblock %}
                 {% include 'dota/footer.html' %}
