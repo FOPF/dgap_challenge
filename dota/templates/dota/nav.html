@@ -1,0 +1,30 @@
+<nav role="navigation" class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+    <div class="navbar-header">
+            <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="{% url 'dota:index' %}" class="navbar-brand">DOTA@DGAP</a>
+    </div>
+    <div id="navbarCollapse" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+{#                <li><a href="{% url "dota:article_list" %}">Новости</a></li>#}
+            <li><a href="{% url "dota:tournament" %}">Турнир</a></li>
+            <li><a href="{% url "dota:live" %}">Трансляция</a></li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+            {% if user.is_authenticated %}
+                <p class="navbar-text">{{ user.first_name }}</p>
+                <li><a href="{%  url "dota:team" %}">Команда</a></li>
+                <li><a href="{% url "dota:logout" %}">Выйти</a></li>
+            {% else %}
+                <li><a href="{% url 'social:begin' 'vk-oauth2' %}?next={% url 'dota:index' %}">Войти через vk</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    </div>
+</nav>

@@ -10,6 +10,7 @@ class UserProfileAdmin(admin.ModelAdmin):
     def user_name(self, obj):
         return "%s %s" % (obj.user.first_name, obj.user.last_name)
 
+
 class UserProfileInline(admin.TabularInline):
     model = UserProfile
     min_num = 5

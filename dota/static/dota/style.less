@@ -63,3 +63,21 @@ body {
     color: #d7d7d7;
   }
 }
+
+/*
+footer span {
+  color: #7a8288;
+  ::after {
+    content: " | ";
+  }
+}
+*/
+@footer-color: #7a8288;
+footer {
+  color: @footer-color;
+  padding-bottom: 20px;
+  text-align: center;
+  a {
+    color: darken(@footer-color, 20%);
+  }
+}
