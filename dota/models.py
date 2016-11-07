@@ -25,7 +25,7 @@ class Team(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField(User, default=None)
     is_approved = models.BooleanField('Пользователь подтверждён', default=False)
-    team = models.ForeignKey(Team, default=-1, blank=True)
+    team = models.ForeignKey(Team, default=-1, null=True, blank=True)
     captain = models.BooleanField('Капитан', default=False)
     participant = models.BooleanField('Участник', default=False)
     mmr = models.IntegerField('MMR', default=0)

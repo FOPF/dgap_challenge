@@ -70,7 +70,25 @@
                 {% endblock %}
 {#            </div>#}
 {#        </div>#}
+        <footer class="footer">
+            <div class="container">
+                <p class="text-muted">Сенат ФОПФ (C) 2016 | По всем вопросам:
+                    <a href="http://vk.com/smnnk">Паша</a>,
+                    <a href="http://vk.com/vanyakislitsyn">Ваня</a>,
+                    <a href="http://vk.com/smnnk">Никита</a>
+                </p>
+            </div>
+        </footer>
     </div>
 </div>
+<div id="vk_community_messages"></div>
+<script type="text/javascript">
+VK.Widgets.CommunityMessages("vk_community_messages", {
+  shown: 1,
+  onCanNotWrite: function() {
+    VK.Widgets.CommunityMessages.destroy("vk_community_messages");
+  },
+}, -20003922);
+</script>
 </body>
 </html>
