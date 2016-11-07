@@ -118,7 +118,7 @@ def create_team(request):
 
     if user.userprofile.team_id == -1:
         # TODO change int to string
-        team = Team.objects.create(invite_key=str(random.randint(0, 10000)), name=name)
+        team = Team.objects.create(invite_key=str(random.randint(0, 9999)), name=name)
         team.save()
         user.userprofile.team_id = team.id
         user.userprofile.captain = 1

@@ -12,6 +12,9 @@
 .container-fluid {
   padding: 0px;
 }
+body {
+  padding-top: 70px;
+}
 .navbar {
   border-radius: 0px;
   border-left: none;
@@ -19,6 +22,9 @@
 }
 .navbar > .container-fluid .navbar-brand {
   margin-left: 0px;
+}
+.navbar-right {
+  margin-right: 0px;
 }
 .panel-group .panel {
   margin-bottom: 20px;
