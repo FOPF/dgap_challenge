@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="team">
-        {% if user.userprofile.team_id != -1 %}
+        {% if user.userprofile.team %}
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3>{{ team.name }}</h3>
@@ -25,8 +25,20 @@
                     </form>
                 </div>
             </div>
-
-        {% elif not user.userprofile.participant %}
+        {% elif user.userprofile.participant %}
+            <div class="panel panel-heading">
+                <div class="panel-heading">
+                    <h3>Индивидуальный участник</h3>
+                </div>
+                <div class="panel-body">
+                    <p><b>Ваша заявка принята. Скоро мы подберем Вам команду:)</b></p>
+                    <form name="refuse" method="post" action={% url 'dota:refuse' %}>
+                        {% csrf_token %}
+                        <button class="btn btn-default">Отозвать заявку</button>
+                    </form>
+                </div>
+            </div>
+        {% else %}
             <div class="panel-group">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -81,19 +93,6 @@
                             <input type="submit" value="Зарегистрироваться" class="btn btn-default btn-sm">
                         </form>
                     </div>
-                </div>
-            </div>
-        {% else %}
-            <div class="panel panel-heading">
-                <div class="panel-heading">
-                    <h3>Индивидуальный участник</h3>
-                </div>
-                <div class="panel-body">
-                    <p><b>Ваша заявка принята. Скоро мы подберем Вам команду:)</b></p>
-                    <form name="refuse" method="post" action={% url 'dota:refuse' %}>
-                        {% csrf_token %}
-                        <button class="btn btn-default">Отозвать заявку</button>
-                    </form>
                 </div>
             </div>
         {% endif %}

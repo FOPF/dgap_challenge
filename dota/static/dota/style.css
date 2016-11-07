@@ -54,3 +54,19 @@ h3 {
 .messages .alert p {
   color: #d7d7d7;
 }
+/*
+footer span {
+  color: #7a8288;
+  ::after {
+    content: " | ";
+  }
+}
+*/
+footer {
+  color: #7a8288;
+  padding-bottom: 20px;
+  text-align: center;
+}
+footer a {
+  color: #4a4f52;
+}
