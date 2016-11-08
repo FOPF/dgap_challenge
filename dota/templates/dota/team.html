@@ -2,13 +2,14 @@
 
 {% block content %}
     <div class="team">
-        {% if user.userprofile.team %}
+        {% if user.userprofile.team_id != -1 %}
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3>{{ team.name }}</h3>
                 </div>
                 <div class="panel-body">
                     <p>Пригласительный код: <b>{{ team.invite_key }}</b></p>
+                    <p>Ссылка на приглашение в команду <a href="{%  url 'dota:join_invite' team.invite_key %}">http://dgap-mipt.ru{%  url 'dota:join_invite' team.invite_key %}</a></p>
                     {% for member in members %}
                         <p><b>{{ member.user.first_name }} {{ member.user.last_name }}</b></p>
                     {% empty %}

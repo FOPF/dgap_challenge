@@ -145,6 +145,8 @@ STATIC_URL = '/static/'
 
 MAX_TEAM_SIZE = 5
 
-LOGIN_URL = '/sport/dota/'
+LOGIN_URL = '/login/login/vk-oauth2/'
+
+FORCE_SCRIPT_NAME = '/'
 
 from dgap_challenge.local_settings import *

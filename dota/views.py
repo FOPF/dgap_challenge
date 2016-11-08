@@ -1,6 +1,8 @@
+from django.conf.urls import url
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib.auth import logout as auth_logout
@@ -32,7 +34,7 @@ class TeamView(generic.View):
 
     def get_team_info(self, request):
         try:
-            team = request.user.userprofile.team
+            team = Team.objects.get(id=request.user.userprofile.team_id)
             members = team.get_members()
             free = MAX_TEAM_SIZE - len(members)
             dct = {
@@ -62,6 +64,7 @@ def add_profile(backend, user, response, *args, **kwargs):
         user.userprofile = UserProfile(user=user)
         user.userprofile.save()
 
+
 def join(request):
     user = request.user
     if request.method != 'POST':
@@ -86,10 +89,15 @@ def join(request):
         return redirect('dota:team')
     elif num_teams == 1:
         team = teams[0]
+
+        if user.userprofile.team_id == team.id:
+            messages.error(request, 'Вы уже вступили в эту команду')
+            return redirect('dota:team')
+
         # TODO Race condition
         num_members = len(team.get_members())
         if num_members < 5:
-            user.userprofile.team = team
+            user.userprofile.team_id = team.id
             user.userprofile.save()
             messages.success(request, 'Вы вступили в команду')
 
@@ -116,11 +124,11 @@ def create_team(request):
         messages.error(request, 'Команда с таким именем уже существует')
         return redirect('dota:team')
 
-    if user.userprofile.team is None:
+    if user.userprofile.team_id == -1:
         # TODO change int to string
         team = Team.objects.create(invite_key=str(random.randint(0, 9999)), name=name)
         team.save()
-        user.userprofile.team = team
+        user.userprofile.team_id = team.id
         user.userprofile.captain = 1
         user.userprofile.save()
         messages.success(request, 'Вы создали команду')
@@ -173,7 +181,7 @@ def single_gamer(request):
         user.userprofile.fullsupport = role & 16 != 0
         user.userprofile.save()
 
-    if user.userprofile.team is None:
+    if user.userprofile.team_id == -1:
         # TODO change int to string
         user.userprofile.participant = True
         user.userprofile.mmr = mmr
@@ -184,15 +192,16 @@ def single_gamer(request):
         messages.error(request, 'Вы уже в команде')
         return redirect('dota:team')
 
+
 def leave_team(request):
     user = request.user
     if request.method != 'POST':
         return redirect('dota:team')
-    if user.userprofile.team is None:
+    if user.userprofile.team_id == -1:
         messages.error(request, 'Вы не состоите ни в одной команде')
         return redirect('dota:team')
-    team = user.userprofile.team
-    user.userprofile.team = None
+    team = Team.objects.get(id=user.userprofile.team_id)
+    user.userprofile.team_id = -1
     user.userprofile.participant = False
     user.userprofile.save()
     if user.userprofile.captain:
@@ -208,3 +217,16 @@ def leave_team(request):
     user.userprofile.save()
     messages.success(request, 'Вы вышли из команды')
     return redirect('dota:team')
+
+
+def join_invite_key(request, invite_key):
+    try:
+        team = Team.objects.get(invite_key=invite_key)
+    except ObjectDoesNotExist:
+        messages.error(request, 'Команды с таким кодом не существует')
+        return redirect('dota:index')
+    dct = {
+        'name': team.name,
+        'invite_key': team.invite_key
+    }
+    return render(request, 'dota/invite_key.html', dct)
