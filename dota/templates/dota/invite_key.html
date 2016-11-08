@@ -10,11 +10,11 @@
             <form name="invite_key" method="post" action={% url 'dota:join' %} class="form-inline" style="float:left; padding-right:4px">
                 {% csrf_token %}
                 <input type="hidden" name="invite_key" value="{{ invite_key }}"/>
-                <input type="submit" value="Да" class="btn btn-default btn-sm">
+                <input type="submit" value="Да" class="btn btn-default">
             </form>
             <form method="get" action={% url 'dota:index' %} class="form-inline" style="float:left">
                 {% csrf_token %}
-                <input type="submit" value="Нет" class="btn btn-default btn-sm">
+                <input type="submit" value="Нет" class="btn btn-default">
             </form>
         </div>
     </div>
