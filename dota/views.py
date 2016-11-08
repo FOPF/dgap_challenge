@@ -65,6 +65,24 @@ def add_profile(backend, user, response, *args, **kwargs):
         user.userprofile.save()
 
 
+def _leave_team(user):
+    team = Team.objects.get(id=user.userprofile.team_id)
+    user.userprofile.team_id = -1
+    user.userprofile.participant = False
+    user.userprofile.save()
+    if user.userprofile.captain:
+        import random
+        members = team.get_members()
+        if len(members) != 0:
+            new_captain = random.choice(members)
+            new_captain.captain = True
+            new_captain.save()
+        user.userprofile.captain = False
+    if len(team.get_members()) == 0:
+        team.delete()
+    user.userprofile.save()
+
+
 def join(request):
     user = request.user
     if request.method != 'POST':
@@ -93,6 +111,9 @@ def join(request):
         if user.userprofile.team_id == team.id:
             messages.error(request, 'Вы уже вступили в эту команду')
             return redirect('dota:team')
+
+        if user.userprofile.team_id != -1:
+            _leave_team(user)
 
         # TODO Race condition
         num_members = len(team.get_members())
@@ -200,21 +221,7 @@ def leave_team(request):
     if user.userprofile.team_id == -1:
         messages.error(request, 'Вы не состоите ни в одной команде')
         return redirect('dota:team')
-    team = Team.objects.get(id=user.userprofile.team_id)
-    user.userprofile.team_id = -1
-    user.userprofile.participant = False
-    user.userprofile.save()
-    if user.userprofile.captain:
-        import random
-        members = team.get_members()
-        if len(members) != 0:
-            new_captain = random.choice(members)
-            new_captain.captain = True
-            new_captain.save()
-        user.userprofile.captain = False
-    if len(team.get_members()) == 0:
-        team.delete()
-    user.userprofile.save()
+    _leave_team(user)
     messages.success(request, 'Вы вышли из команды')
     return redirect('dota:team')
 
