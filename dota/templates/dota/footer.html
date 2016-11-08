@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <footer class="footer">
     <div class="container">
         <span>Сенат ФОПФ &copy; 2016</span> |
@@ -7,5 +8,10 @@
             <a href="http://vk.me/id226132239">Никита</a>
         </span> |
         <span><a href="{% url "dota:team" %}">Регистрация на турнир</a></span>
+        <div class="sponsors">
+            <a href="http://vk.com/dgapmipt"><img class="logo" src="{% static 'dota/sponsors/senate.png' %}"></a>
+            <a href="http://phystech.store"><img class="logo" src="{% static 'dota/sponsors/phystechstore_inv.png' %}"></a>
+            <a href="http://veryfood.ru"><img class="logo" src="{% static 'dota/sponsors/veryfood.png' %}"></a>
+        </div>
     </div>
 </footer>
