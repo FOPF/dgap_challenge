@@ -16,7 +16,7 @@ class Team(models.Model):
     invite_key = models.CharField('Ключ для приглашения', max_length=50, default='')
 
     def get_members(self):
-        return UserProfile.objects.filter(team=self).all()
+        return self.userprofile_set.all()
 
     def __str__(self):
         return self.name + ": " + str(len(self.get_members()))

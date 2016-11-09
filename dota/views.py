@@ -34,7 +34,7 @@ class TeamView(generic.View):
 
     def get_team_info(self, request):
         try:
-            team = Team.objects.get(id=request.user.userprofile.team_id)
+            team = request.user.userprofile.team
             members = team.get_members()
             free = MAX_TEAM_SIZE - len(members)
             dct = {
@@ -66,7 +66,7 @@ def add_profile(backend, user, response, *args, **kwargs):
 
 
 def _leave_team(user):
-    team = Team.objects.get(id=user.userprofile.team_id)
+    team = user.userprofile.team
     user.userprofile.team_id = -1
     user.userprofile.participant = False
     user.userprofile.save()
