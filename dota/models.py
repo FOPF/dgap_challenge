@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 
+from dgap_challenge.settings import MAX_TEAM_SIZE
+
+
 class Article(models.Model):
     title = models.CharField(max_length=255) # заголовок поста
     datetime = models.DateTimeField('Дата публикации') # дата публикации
@@ -44,6 +47,19 @@ class Tournament(models.Model):
     rules = models.TextField('Правила чемпионата')
     start_dttm = models.DateTimeField('Начало чемпионата')
     end_dttm = models.DateTimeField('Конец чемпионата')
+    teams = models.ManyToManyField(Team)
+
+    @property
+    def num_teams(self):
+        return len(self.teams.all())
+
+    def register_full_teams(self):
+        teams = Team.objects.all()
+        if not teams:
+            return None
+        for team in teams:
+            if len(team.get_members()) == MAX_TEAM_SIZE:
+                self.teams.add(team)
 
 
 class TournamentRound(models.Model):
@@ -61,7 +77,6 @@ class TournamentGame(models.Model):
     is_active = models.BooleanField("Игра идет")
     score = models.CharField('Результат', max_length=40, blank=True, null=True, default=None)
     winner = models.ForeignKey(Team, blank=True, null=True)
-    teams = models.ManyToManyField(Team)
 
     @property
     #TODO self.winner == None => CRASH!!!
