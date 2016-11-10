@@ -62,8 +62,15 @@ footer span {
   }
 }
 */
-ul.team-members li {
-  list-style-type: none;
+.team-members {
+  padding-left: 0px;
+}
+.team-members li {
+  list-style: none outside none;
+}
+.team-members a {
+  color: inherit;
+  font-weight: bold;
 }
 footer {
   color: #7a8288;

@@ -10,13 +10,13 @@
                 <div class="panel-body">
                     <p>Пригласительный код: <b>{{ team.invite_key }}</b></p>
                     <p>Ссылка на приглашение в команду: <a href="{% url 'dota:join_invite' team.invite_key %}">http://dgap-mipt.ru{%  url 'dota:join_invite' team.invite_key %}</a></p>
-                    <ul class="team-members">
+                    <div class="team-members">
                         {% for member in members %}
-                            <li><b><a href="http://vk.com/{{ member.user.username }}">{{ member.user.first_name }} {{ member.user.last_name }}</a></b></li>
+                            <p><a href="http://vk.com/{{ member.user.username }}">{{ member.user.first_name }} {{ member.user.last_name }}</a></p>
                         {% empty %}
                             <p>Нет участников</p>
                         {% endfor %}
-                    </ul>
+                    </div>
                     {% if free > 0 %}
                         <p>Свободно мест: {{ free }}</p>
                     {% else %}

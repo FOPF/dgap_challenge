@@ -73,10 +73,15 @@ footer span {
 }
 */
 
-ul.team-members li {
-  list-style-type: none;
+.team-members {
+  padding-left: 0px; //needed if <ul> instead of <div> used
+  li {
+    list-style: none outside none;
+  }
   a {
     //text-decoration: none;
+    color: inherit;
+    font-weight: bold;
   }
 }
 
