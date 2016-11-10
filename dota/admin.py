@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Article, Team, UserProfile
+from .models import Article, Team, UserProfile, Tournament, TournamentRound, TournamentGame
 # Register your models here.
 
 
@@ -25,6 +25,26 @@ class TeamAdmin(admin.ModelAdmin):
         return len(obj.get_members())
 
 
+class TournamentRoundInline(admin.TabularInline):
+    model = TournamentRound
+
+
+class TournamentGameInline(admin.TabularInline):
+    model = TournamentGame
+
+
+class TournamentRoundAdmin(admin.ModelAdmin):
+    inlines = [TournamentGameInline,]
+
+
+class TournamentAdmin(admin.ModelAdmin):
+    filter_horizontal = ['teams']
+    inlines = [TournamentRoundInline,]
+
+
 admin.site.register(Article)
 admin.site.register(Team, TeamAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
+admin.site.register(Tournament, TournamentAdmin)
+admin.site.register(TournamentRound, TournamentRoundAdmin)
+admin.site.register(TournamentGame)

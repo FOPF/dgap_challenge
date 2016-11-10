@@ -57,24 +57,45 @@ class Tournament(models.Model):
         teams = Team.objects.all()
         if not teams:
             return None
+        cnt = 0
         for team in teams:
             if len(team.get_members()) == MAX_TEAM_SIZE:
                 self.teams.add(team)
+            cnt += 1
+        return cnt
 
+    def __str__(self):
+        return '%s, %s' % (self.name, self.start_dttm)
 
 class TournamentRound(models.Model):
     tournament = models.ForeignKey(Tournament)
     num = models.IntegerField('Номер раунда')
-    name = models.CharField('Название раунда', max_length=40, default=True, blank=True, null=True)
+    name = models.CharField('Название раунда', max_length=40, default=None, blank=True, null=True)
     start_dttm = models.DateTimeField('Начало раунда')
     end_dttm = models.DateTimeField('Конец раунда')
 
+    NOT_READY = 0
+    CAN_START = 1
+    STARTED = 2
+    FINISHED = 3
+    CANCELLED = 4
+    states = (
+        (NOT_READY, 'Раунд не готов к началу'),
+        (CAN_START, 'Раунд может начинаться'),
+        (STARTED, 'Раунд начался'),
+        (FINISHED, 'Раунд завершен'),
+        (CANCELLED, 'Раунд отменен')
+    )
+    state = models.IntegerField('Статус раунда', default=NOT_READY, choices=states)
+
+    def __str__(self):
+        return self.name
 
 class TournamentGame(models.Model):
     round = models.ForeignKey(TournamentRound)
     team1 = models.ForeignKey(Team, related_name='team1')
     team2 = models.ForeignKey(Team, related_name='team2')
-    is_active = models.BooleanField("Игра идет")
+    is_active = models.BooleanField("Игра идет", default=False)
     score = models.CharField('Результат', max_length=40, blank=True, null=True, default=None)
     winner = models.ForeignKey(Team, related_name='winner', blank=True, null=True)
 
@@ -90,6 +111,13 @@ class TournamentGame(models.Model):
         except ObjectDoesNotExist:
             return None
 
+    def add_teams(self, team1, team2):
+        self.team1 = team1
+        self.team2 = team2
+
     def set_results(self, winner, score):
         self.winner, self.score = winner, score
         self.save()
+
+    def __str__(self):
+        return self.team1.name + 'vs.' + self.team2.name
