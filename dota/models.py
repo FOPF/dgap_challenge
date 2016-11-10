@@ -72,11 +72,11 @@ class TournamentRound(models.Model):
 
 class TournamentGame(models.Model):
     round = models.ForeignKey(TournamentRound)
-    team1 = models.ForeignKey(Team)
-    team2 = models.ForeignKey(Team)
+    team1 = models.ForeignKey(Team, related_name='team1')
+    team2 = models.ForeignKey(Team, related_name='team2')
     is_active = models.BooleanField("Игра идет")
     score = models.CharField('Результат', max_length=40, blank=True, null=True, default=None)
-    winner = models.ForeignKey(Team, blank=True, null=True)
+    winner = models.ForeignKey(Team, related_name='winner', blank=True, null=True)
 
     @property
     #TODO self.winner == None => CRASH!!!
