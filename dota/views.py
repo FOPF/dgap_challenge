@@ -78,9 +78,9 @@ def _leave_team(user):
             new_captain.captain = True
             new_captain.save()
         user.userprofile.captain = False
+    user.userprofile.save()
     if len(team.get_members()) == 0:
         team.delete()
-    user.userprofile.save()
 
 
 def join(request):

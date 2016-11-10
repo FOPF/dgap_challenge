@@ -9,7 +9,7 @@
                 </div>
                 <div class="panel-body">
                     <p>Пригласительный код: <b>{{ team.invite_key }}</b></p>
-                    <p>Ссылка на приглашение в команду: <a href="{% url 'dota:join_invite' team.invite_key %}">http://dgap-mipt.ru{%  url 'dota:join_invite' team.invite_key %}</a></p>
+                    <p>Ссылка на приглашение в команду <a href="{%  url 'dota:join_invite' team.invite_key %}">{% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}{%  url 'dota:join_invite' team.invite_key %}</a></p>
                     <div class="team-members">
                         {% for member in members %}
                             <p><a href="http://vk.com/{{ member.user.username }}">{{ member.user.first_name }} {{ member.user.last_name }}</a></p>
