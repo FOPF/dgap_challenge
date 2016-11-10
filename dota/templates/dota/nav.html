@@ -19,7 +19,10 @@
         <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated %}
                 <p class="navbar-text">{{ user.first_name }}</p>
-                <li><a href="{%  url "dota:team" %}">Команда</a></li>
+                {% if user.is_superuser or user.is_staff %}
+                    <li><a href="{% url "admin:index" %}">Админка</a></li>
+                {% endif %}
+                <li><a href="{% url "dota:team" %}">Команда</a></li>
                 <li><a href="{% url "dota:logout" %}">Выйти</a></li>
             {% else %}
                 <li><a href="{% url 'social:begin' 'vk-oauth2' %}?next={% url 'dota:index' %}">Войти через vk</a></li>
