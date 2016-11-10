@@ -81,6 +81,7 @@ def _leave_team(user):
     user.userprofile.save()
     if len(team.get_members()) == 0:
         team.delete()
+    return user.userprofile
 
 
 def join(request):
@@ -113,12 +114,12 @@ def join(request):
             return redirect('dota:team')
 
         if user.userprofile.team_id != -1:
-            _leave_team(user)
+            user.userprofile = _leave_team(user)
 
         # TODO Race condition
         num_members = len(team.get_members())
         if num_members < 5:
-            user.userprofile.team_id = team.id
+            user.userprofile.team = team
             user.userprofile.save()
             messages.success(request, 'Вы вступили в команду')
 
@@ -221,7 +222,7 @@ def leave_team(request):
     if user.userprofile.team_id == -1:
         messages.error(request, 'Вы не состоите ни в одной команде')
         return redirect('dota:team')
-    _leave_team(user)
+    user.userprofile = _leave_team(user)
     messages.success(request, 'Вы вышли из команды')
     return redirect('dota:team')
 
