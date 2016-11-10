@@ -126,7 +126,7 @@ def join(request):
                 user.userprofile.participant = False
                 user.userprofile.save()
                 messages.info(request, 'Вы отказались от индивидуальной заявки, так как вступили в команду')
-            return redirect('dota:index')
+            return redirect('dota:team')
         else:
             messages.error(request, 'В этой команде больше нет свободных мест')
             return redirect('dota:team')
@@ -146,7 +146,6 @@ def create_team(request):
         return redirect('dota:team')
 
     if user.userprofile.team_id == -1:
-        # TODO change int to string
         team = Team.objects.create(invite_key=str(random.randint(0, 9999)), name=name)
         team.save()
         user.userprofile.team_id = team.id
@@ -232,8 +231,16 @@ def join_invite_key(request, invite_key):
     except ObjectDoesNotExist:
         messages.error(request, 'Команды с таким кодом не существует')
         return redirect('dota:index')
+    #TODO Do we need error checking here? There MUST be exactly ONE cap in each team, but who knows...
+    captain = team.userprofile_set.get(captain=True)
     dct = {
-        'name': team.name,
-        'invite_key': team.invite_key
+        'team': {
+            'name': team.name,
+            'invite_key': team.invite_key
+        },
+        'captain': {
+            'name': captain.user.first_name + ' ' + captain.user.last_name,
+            'link': 'http://vk.com/' + captain.user.username
+        }
     }
     return render(request, 'dota/invite_key.html', dct)
