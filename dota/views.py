@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib.auth import logout as auth_logout
 import random
+from datetime import datetime
 from functools import reduce
 from pandas import DataFrame
 
@@ -16,7 +17,7 @@ from .models import Article, Team, UserProfile, Tournament, TournamentRound, Tou
 
 class ArticlesList(generic.ListView):
     model = Article
-    queryset = model.objects.order_by('-datetime')
+    queryset = model.objects.filter(datetime__lte=datetime.now).order_by('-datetime')
 
 
 class ArticleDetail(generic.DetailView):
