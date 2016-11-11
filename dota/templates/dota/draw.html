@@ -12,14 +12,14 @@
                         <p>Начало: {{ round.start_dttm }}</p>
                         <p>Окончание: {{ round.end_dttm }}</p>
                         <p>{{ round.get_state_display }}</p>
-                        <table class="draw">
+                        <table class="table table-hover">
                             {% comment %}<tr>
                                 <th>Sentinel</th>
                                 <th>Scourge</th>
                             </tr>{% endcomment %}
                             {% for game in round.tournamentgame_set.all %}
                                 <tr>
-                                    <td>{{ game.team1.name }}</td>
+                                    <td><a href="{{ game.team1.captain.link }}">{{ game.team1.name }}</a></td>
                                     <td>
                                         {% if game.winner == game.team1 %}
                                             1:0
@@ -29,7 +29,7 @@
                                             vs
                                         {% endif %}
                                     </td>
-                                    <td>{{ game.team2.name }}</td></tr>
+                                    <td><a href="{{ game.team2.captain.link }}">{{ game.team2.name }}</a></td></tr>
                             {% endfor %}
                         </table>
                     </div>

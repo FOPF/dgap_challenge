@@ -21,6 +21,11 @@ class Team(models.Model):
     def get_members(self):
         return self.userprofile_set.all()
 
+    #TODO may fail if there is no cap in team
+    @property
+    def captain(self):
+        return self.userprofile_set.get(captain=True)
+
     def __str__(self):
         return self.name + ": " + str(len(self.get_members()))
 
@@ -37,6 +42,10 @@ class UserProfile(models.Model):
     hardliner = models.BooleanField('Хардлайнер', default=False)
     semisupport = models.BooleanField('Семисаппорт', default=False)
     fullsupport = models.BooleanField('Фуллсаппорт', default=False)
+
+    @property
+    def link(self):
+        return 'http://vk.com/' + self.user.username
 
     def __str__(self):
         return self.user.first_name + ' ' + self.user.last_name
@@ -76,10 +85,10 @@ class Tournament(models.Model):
 
 class TournamentRound(models.Model):
     tournament = models.ForeignKey(Tournament)
-    num = models.IntegerField('Номер раунда')
-    name = models.CharField('Название раунда', max_length=40, default=None, blank=True, null=True)
-    start_dttm = models.DateTimeField('Начало раунда')
-    end_dttm = models.DateTimeField('Конец раунда')
+    num = models.IntegerField('Номер тура')
+    name = models.CharField('Название тура', max_length=40, default=None, blank=True, null=True)
+    start_dttm = models.DateTimeField('Начало тура')
+    end_dttm = models.DateTimeField('Конец тура')
 
     NOT_READY = 0
     CAN_START = 1
@@ -87,13 +96,13 @@ class TournamentRound(models.Model):
     FINISHED = 3
     CANCELLED = 4
     states = (
-        (NOT_READY, 'Раунд не готов к началу'),
-        (CAN_START, 'Раунд может начинаться'),
-        (STARTED, 'Раунд начался'),
-        (FINISHED, 'Раунд завершен'),
-        (CANCELLED, 'Раунд отменен')
+        (NOT_READY, 'Тур не готов к началу'),
+        (CAN_START, 'Ожидание начала тура'),
+        (STARTED, 'Тур начался'),
+        (FINISHED, 'Тур завершен'),
+        (CANCELLED, 'Тур отменен')
     )
-    state = models.IntegerField('Статус раунда', default=NOT_READY, choices=states)
+    state = models.IntegerField('Статус тура', default=NOT_READY, choices=states)
 
     def __str__(self):
         return self.name

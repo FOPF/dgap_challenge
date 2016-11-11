@@ -251,7 +251,7 @@ def join_invite_key(request, invite_key):
         messages.error(request, 'Команды с таким кодом не существует')
         return redirect('dota:index')
     #TODO Do we need error checking here? There MUST be exactly ONE cap in each team, but who knows...
-    captain = team.userprofile_set.get(captain=True)
+    captain = team.captain
     dct = {
         'team': {
             'name': team.name,
@@ -259,7 +259,7 @@ def join_invite_key(request, invite_key):
         },
         'captain': {
             'name': captain.user.first_name + ' ' + captain.user.last_name,
-            'link': 'http://vk.com/' + captain.user.username
+            'link': captain.link
         }
     }
     return render(request, 'dota/invite_key.html', dct)

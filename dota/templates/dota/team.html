@@ -12,7 +12,7 @@
                     <p>Ссылка на приглашение в команду <a href="{%  url 'dota:join_invite' team.invite_key %}">{% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}{%  url 'dota:join_invite' team.invite_key %}</a></p>
                     <div class="team-members">
                         {% for member in members %}
-                            <p><a href="http://vk.com/{{ member.user.username }}">{{ member.user.first_name }} {{ member.user.last_name }}</a></p>
+                            <p><a href="{{ member.link }}">{{ member.user.first_name }} {{ member.user.last_name }}</a></p>
                         {% empty %}
                             <p>Нет участников</p>
                         {% endfor %}
