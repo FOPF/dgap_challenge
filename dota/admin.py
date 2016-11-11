@@ -4,8 +4,8 @@ from .models import Article, Team, UserProfile, Tournament, TournamentRound, Tou
 
 
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user_name', 'team', 'participant')
-    list_filter = ('participant', 'team')
+    list_display = ('user_name', 'team', 'participant', 'captain', 'is_approved')
+    list_filter = ('participant', 'captain', 'is_approved', 'team')
 
     def user_name(self, obj):
         return "%s %s" % (obj.user.first_name, obj.user.last_name)
