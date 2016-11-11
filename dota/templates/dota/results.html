@@ -1,0 +1,21 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2>Турнирная таблица</h2>
+    </div>
+    <div class="panel-body">
+        <table class="results">
+            <tr>
+                <th>№</th>
+                <th>Команда</th>
+            </tr>
+            {% for team %}
+                <tr>
+                    <td>{{ game.team1.name }}</td>
+                    <td>{% if game.i %}</td>
+                    <td>{{ game.team2.name }}</td></tr>
+            {% endfor %}
+
+        </table>
+        </div>
+    </div>
+</div>

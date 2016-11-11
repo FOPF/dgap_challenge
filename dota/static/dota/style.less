@@ -1,3 +1,7 @@
+@red-color: #c33d2b;
+@dark-red-color: #64281f;
+@footer-color: #7a8288;
+
 @media (min-width: 768px) {
   .main, nav .container-fluid {
     max-width: 680px; // old 730
@@ -42,15 +46,15 @@ body {
 //}
 
 .panel h1, h2, h3, a {
-  color: #c33d2b;
+  color: @red-color;
 }
 .panel h1, h2, h3 {
   margin-top: 10px;
 }
 
 .messages .alert {
-  background-color: #64281f;
-  border-color: #64281f;
+  background-color: @dark-red-color;
+  border-color: @dark-red-color;
   p {
     color: #d7d7d7;
   }
@@ -85,7 +89,17 @@ footer span {
   }
 }
 
-@footer-color: #7a8288;
+table.draw {
+  border-collapse: collapse;
+}
+
+table.draw, th, td {
+  border: 3px solid @footer-color;
+  text-align: center;
+  padding: 10px;
+  }
+
+
 footer {
   color: @footer-color;
   padding-bottom: 20px;

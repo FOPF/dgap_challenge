@@ -8,9 +8,10 @@ from django.views import generic
 from django.contrib.auth import logout as auth_logout
 import random
 from functools import reduce
+from pandas import DataFrame
 
 from dgap_challenge.settings import MAX_TEAM_SIZE
-from .models import Article, Team, UserProfile
+from .models import Article, Team, UserProfile, Tournament, TournamentRound, TournamentGame
 
 
 class ArticlesList(generic.ListView):
@@ -51,6 +52,22 @@ class TeamView(generic.View):
     def post(self, request, *args, **kwargs):
         return self.get_team_info(request)
 
+
+def round_list(request):
+    rounds = TournamentRound.objects.prefetch_related('tournamentgame_set').all().order_by('-start_dttm')
+    return render(request, 'dota/draw.html', {'round_list': rounds})
+
+
+def tournament_results(request, tournament):
+    data = DataFrame()
+    teams = tournament.teams.all()  # participants
+    data['team'] = [team.name for team in teams]
+    rounds = TournamentRound.objects.filter(state__in=[TournamentRound.FINISHED, TournamentRound.CANCELLED])
+    for team in teams:
+        score = len(rounds.filter(winner=team))
+
+    # data['Команда'] = data['team'].name
+    rounds = tournament.tournamentround_set.all()
 
 
 def logout(request):

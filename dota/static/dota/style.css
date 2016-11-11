@@ -72,6 +72,16 @@ footer span {
   color: inherit;
   font-weight: bold;
 }
+table.draw {
+  border-collapse: collapse;
+}
+table.draw,
+th,
+td {
+  border: 3px solid #7a8288;
+  text-align: center;
+  padding: 10px;
+}
 footer {
   color: #7a8288;
   padding-bottom: 20px;

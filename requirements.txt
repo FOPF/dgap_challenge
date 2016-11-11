@@ -19,3 +19,4 @@ requests-oauthlib==0.5.0
 urllib3==1.13.1
 user-agents==0.3.2
 virtualenv==15.0.3
+pandas

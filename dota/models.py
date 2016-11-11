@@ -64,8 +64,15 @@ class Tournament(models.Model):
             cnt += 1
         return cnt
 
+    @property
+    def current_round(self):
+        if len(self.tournamentround_set) == 0:
+            return None
+        return self.tournamentround_set.filter(state=TournamentRound.FINISHED).order_by('-start_dttm')[0]
+
     def __str__(self):
         return '%s, %s' % (self.name, self.start_dttm)
+
 
 class TournamentRound(models.Model):
     tournament = models.ForeignKey(Tournament)
@@ -90,6 +97,7 @@ class TournamentRound(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class TournamentGame(models.Model):
     round = models.ForeignKey(TournamentRound)
@@ -120,4 +128,4 @@ class TournamentGame(models.Model):
         self.save()
 
     def __str__(self):
-        return self.team1.name + 'vs.' + self.team2.name
+        return self.team1.name + ' vs. ' + self.team2.name

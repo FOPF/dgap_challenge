@@ -1,0 +1,42 @@
+{% extends "dota/base.html" %}
+
+    {% block content %}
+        <div class="panel-group">
+        {% for round in round_list %}
+            {% if round.state != 0 %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2>{{ round.name }}</h2>
+                    </div>
+                    <div class="panel-body">
+                        <p>Начало: {{ round.start_dttm }}</p>
+                        <p>Окончание: {{ round.end_dttm }}</p>
+                        <p>{{ round.get_state_display }}</p>
+                        <table class="draw">
+                            {% comment %}<tr>
+                                <th>Sentinel</th>
+                                <th>Scourge</th>
+                            </tr>{% endcomment %}
+                            {% for game in round.tournamentgame_set.all %}
+                                <tr>
+                                    <td>{{ game.team1.name }}</td>
+                                    <td>
+                                        {% if game.winner == game.team1 %}
+                                            1:0
+                                        {% elif game.winner == game.team2 %}
+                                            0:1
+                                        {% else %}
+                                            vs
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ game.team2.name }}</td></tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            {% endif %}
+        {% empty %}
+            <p>Жеребьевка отсутствует</p>
+        {% endfor %}
+        </div>
+    {% endblock %}
