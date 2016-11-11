@@ -1,8 +1,6 @@
 from django.conf.urls import url
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib.auth import logout as auth_logout
@@ -52,6 +50,26 @@ class TeamView(generic.View):
         return self.get_team_info(request)
     def post(self, request, *args, **kwargs):
         return self.get_team_info(request)
+
+
+class Choose_new_name(generic.View):
+    template_name = 'dota/choose_new_name.html'
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        if user.userprofile.team_id == -1:
+            messages.error(request, "Вы не вступили ни в одну из команд")
+            return redirect('dota:team')
+        elif not user.userprofile.captain:
+            messages.error(request, "Вы не можете изменять название команды, так как не являетесь капитаном")
+            return redirect('dota:team')
+        else:
+            dct = {
+                'team': user.userprofile.team
+            }
+            return render(request, self.template_name, dct)
+
+
 
 
 def round_list(request):
@@ -263,3 +281,23 @@ def join_invite_key(request, invite_key):
         }
     }
     return render(request, 'dota/invite_key.html', dct)
+
+
+def change_name(request):
+    user = request.user
+    if request.method != 'POST':
+        return redirect('dota:team')
+    names = request.POST.getlist("name", False)
+    if not names:
+        messages.error(request, "Вы не вели название команды")
+        return redirect('dota:team')
+    name = names[0]
+    if not user.userprofile.captain:
+        messages.error(request, "Вы не можете изменять название команды, так как не являетесь капитаном")
+    elif user.userprofile.team_id == -1:
+        messages.error(request, "Вы не вступили ни в одну из команд")
+    else:
+        user.userprofile.team.change_name(name)
+        user.userprofile.team.save()
+        messages.success(request, "Название изменено")
+    return redirect("dota:team")

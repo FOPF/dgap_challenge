@@ -28,4 +28,6 @@ urlpatterns = [
     url(r'^refuse/$', login_required(views.refuse), name="refuse"),
     url(r'^join/(?P<invite_key>\d{1,4})', login_required(views.join_invite_key), name="join_invite"), # login_required in views
     url(r'^fedotov/$', RedirectView.as_view(url='https://vk.com/la_liberte_et_de_l_egalite')), # LOL
+    url(r'^change_name/', login_required(views.change_name), name="change_name"),
+    url(r'^choose_new_name/', login_required(views.Choose_new_name.as_view()), name="choose_new_name"),
 ]

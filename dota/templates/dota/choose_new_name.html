@@ -1,0 +1,19 @@
+{% extends "dota/base.html" %}
+
+{% block content %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3>Изменение название команды. Текущее название: {{ team.name }}</h3>
+        </div>
+        <div class="panel-body">
+            <form name="change_name" method="post" action={% url 'dota:change_name' %}>
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="change_name">Новое название:</label>
+                    <input type="text" name="name" size="40" class="form-control input-sm">
+                </div>
+                <button class="btn btn-default">Изменить</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

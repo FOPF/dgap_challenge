@@ -12,7 +12,7 @@
                     <p>Ссылка на приглашение в команду <a href="{%  url 'dota:join_invite' team.invite_key %}">{% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}{%  url 'dota:join_invite' team.invite_key %}</a></p>
                     <div class="team-members">
                         {% for member in members %}
-                            <p><a href="{{ member.link }}">{{ member.user.first_name }} {{ member.user.last_name }}</a></p>
+                            <p><a href="{{ member.link }}">{{ member.user.first_name }} {{ member.user.last_name }}</a> {% if member.captain %}(капитан){%  endif %}</p>
                         {% empty %}
                             <p>Нет участников</p>
                         {% endfor %}
@@ -22,10 +22,16 @@
                     {% else %}
                         <p>Команда полнстью укомплектована</p>
                     {% endif %}
-                    <form name="leave_team" method="post" action={% url 'dota:leave_team' %}>
+                    <form name="leave_team" method="post" action={% url 'dota:leave_team' %} style="float:left">
                         {% csrf_token %}
                         <button class="btn btn-default">Выйти из команды</button>
                     </form>
+                    {% if user.userprofile.captain %}
+                        <form name="choose_new_name" method="get" action={% url 'dota:choose_new_name' %} style="float:right">
+                            {% csrf_token %}
+                            <button class="btn btn-default">Изменить название команды</button>
+                        </form>
+                    {% endif %}
                 </div>
             </div>
         {% elif user.userprofile.participant %}

@@ -29,6 +29,9 @@ class Team(models.Model):
     def __str__(self):
         return self.name + ": " + str(len(self.get_members()))
 
+    def change_name(self, name):
+        self.name = name
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, default=None)
