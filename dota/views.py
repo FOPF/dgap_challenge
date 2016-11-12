@@ -7,12 +7,35 @@ from django.contrib.auth import logout as auth_logout
 import random
 from datetime import datetime
 from functools import reduce
-from pandas import DataFrame
+from pandas import DataFrame, Series
 
 from dgap_challenge.settings import MAX_TEAM_SIZE
 from .models import Article, Team, UserProfile, Tournament, TournamentRound, TournamentGame
 from dgap_challenge.settings import END_TIME_REGISTRATION
+from django.db.models import Q
 
+
+def _tournament_results(tournament):
+    teams = tournament.teams.all()  # participants
+    rounds = TournamentRound.objects
+    data = DataFrame(index=[team.name for team in teams],
+                     columns=[str(round.num) + ' тур' for round in rounds.filter(~Q(name='Финал'))])
+    rounds = rounds.filter(state__in=[TournamentRound.FINISHED, TournamentRound.CANCELLED,
+                                      TournamentRound.STARTED])
+    last_score = {}
+    for team in teams:
+        for round in rounds:
+            try:
+                tournamentgame = round.tournamentgame_set.filter(Q(team1=team) | Q(team2=team)).first()
+            except ObjectDoesNotExist:
+                continue
+            if not tournamentgame.winner:
+                continue
+            else:
+                score = len(round.tournamentgame_set.filter(winner=team)) + last_score.get(team.name, 0)
+                data.loc[team.name, str(round.num) + ' тур'] = score
+                last_score[team.name] = score
+    return data
 
 class ArticlesList(generic.ListView):
     model = Article
@@ -38,6 +61,10 @@ class TournamentView(generic.View):
             dct = {
                 'round_list': TournamentRound.objects.all()
             }
+            table = _tournament_results(Tournament.objects.first())
+            if len(table) > 0:
+                dct['table'] = True
+                dct['table_html'] = table.to_html(classes="table", na_rep='', border='0')
         else:
             template_name = "dota/tournament.html"
             dct = {
@@ -99,18 +126,6 @@ class Choose_new_name(generic.View):
 def round_list(request):
     rounds = TournamentRound.objects.prefetch_related('tournamentgame_set').all().order_by('-start_dttm')
     return render(request, 'dota/draw.html', {'round_list': rounds})
-
-
-def tournament_results(request, tournament):
-    data = DataFrame()
-    teams = tournament.teams.all()  # participants
-    data['team'] = [team.name for team in teams]
-    rounds = TournamentRound.objects.filter(state__in=[TournamentRound.FINISHED, TournamentRound.CANCELLED])
-    for team in teams:
-        score = len(rounds.filter(winner=team))
-
-    # data['Команда'] = data['team'].name
-    rounds = tournament.tournamentround_set.all()
 
 
 def logout(request):

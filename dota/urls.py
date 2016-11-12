@@ -5,7 +5,7 @@ from dota import views
 from django.contrib import admin
 from django.views.generic import TemplateView, RedirectView
 from dota import views
-from dgap_challenge.settings import FORCE_SCRIPT_NAME
+from dota.models import Tournament
 
 
 urlpatterns = [

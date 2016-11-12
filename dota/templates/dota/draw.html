@@ -2,6 +2,16 @@
 
 {% block content %}
     <div class="panel-group">
+    {% if table %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2>Результаты отборочного этапа</h2>
+            </div>
+            <div class="panel-body">
+                {{ table_html | safe }}
+            </div>
+        </div>
+    {% endif %}
     {% for round in round_list %}
         {% if round.state != 0 %}
             <div class="panel panel-default">
