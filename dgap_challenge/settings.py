@@ -149,4 +149,8 @@ LOGIN_URL = '/login/login/vk-oauth2/'
 
 FORCE_SCRIPT_NAME = '/'
 
+import datetime
+
+END_TIME_REGISTRATION = datetime.datetime(1970, 1, 1, 0, 0, 0)
+
 from dgap_challenge.local_settings import *

@@ -16,7 +16,7 @@ urlpatterns = [
     url(r'^news/$', views.ArticlesList.as_view(), name="article_list"),
     url(r'^news/(?P<pk>\d+)/$', views.ArticleDetail.as_view(), name="article_detail"),
     url(r'^live/$', TemplateView.as_view(template_name="dota/live.html"), name="live"),
-    url(r'^tournament/$', TemplateView.as_view(template_name="dota/tournament.html"), name="tournament"),
+    url(r'^tournament/$', views.TournamentView.as_view(), name="tournament"),
     url(r'^team/$', login_required(views.TeamView.as_view()), name="team"),
     # url(r'^draw/$', views.RoundList.as_view(), name="draw"),
     url(r'^draw/$', views.round_list, name="draw"),

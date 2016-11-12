@@ -11,6 +11,7 @@ from pandas import DataFrame
 
 from dgap_challenge.settings import MAX_TEAM_SIZE
 from .models import Article, Team, UserProfile, Tournament, TournamentRound, TournamentGame
+from dgap_challenge.settings import END_TIME_REGISTRATION
 
 
 class ArticlesList(generic.ListView):
@@ -29,6 +30,25 @@ class Index(generic.View):
         return redirect('dota:article_list')
 
 
+class TournamentView(generic.View):
+    def get(self, request, *args, **kwargs):
+        dct = {}
+        if datetime.now() > END_TIME_REGISTRATION:
+            template_name = "dota/draw.html"
+            dct = {
+                'round_list': TournamentRound.objects.all()
+            }
+        else:
+            template_name = "dota/tournament.html"
+            dct = {
+                'day': END_TIME_REGISTRATION.day,
+                'month': END_TIME_REGISTRATION.strftime('%H'), # TODO Problem with localization
+                'hour': END_TIME_REGISTRATION.strftime('%H'),
+                'minute': END_TIME_REGISTRATION.strftime('%M')
+            }
+        return render(request, template_name, dct)
+
+
 class TeamView(generic.View):
     template_name = 'dota/team.html'
 
@@ -44,6 +64,10 @@ class TeamView(generic.View):
             }
         except ObjectDoesNotExist:
             dct = {}
+            if datetime.now() > END_TIME_REGISTRATION:
+                dct['finished_registration'] = True
+            else:
+                dct['finished_registration'] = False
         return render(request, self.template_name, dct)
 
     def get(self, request, *args, **kwargs):
@@ -268,6 +292,11 @@ def join_invite_key(request, invite_key):
     except ObjectDoesNotExist:
         messages.error(request, 'Команды с таким кодом не существует')
         return redirect('dota:index')
+
+    if datetime.now() > END_TIME_REGISTRATION:
+        messages.error(request, 'Регистрация закрыта')
+        return redirect('dota:index')
+
     #TODO Do we need error checking here? There MUST be exactly ONE cap in each team, but who knows...
     captain = team.captain
     dct = {

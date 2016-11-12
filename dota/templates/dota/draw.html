@@ -1,42 +1,46 @@
 {% extends "dota/base.html" %}
 
-    {% block content %}
-        <div class="panel-group">
-        {% for round in round_list %}
-            {% if round.state != 0 %}
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h2>{{ round.name }}</h2>
-                    </div>
-                    <div class="panel-body">
-                        <p>Начало: {{ round.start_dttm }}</p>
-                        <p>Окончание: {{ round.end_dttm }}</p>
-                        <p>{{ round.get_state_display }}</p>
-                        <table class="table table-hover">
-                            {% comment %}<tr>
-                                <th>Sentinel</th>
-                                <th>Scourge</th>
-                            </tr>{% endcomment %}
-                            {% for game in round.tournamentgame_set.all %}
-                                <tr>
-                                    <td width="45%"><a href="{{ game.team1.captain.link }}">{{ game.team1.name }}</a></td>
-                                    <td align="center">
-                                        {% if game.winner == game.team1 %}
-                                            1:0
-                                        {% elif game.winner == game.team2 %}
-                                            0:1
-                                        {% else %}
-                                            vs
-                                        {% endif %}
-                                    </td>
-                                    <td width="45%"><a href="{{ game.team2.captain.link }}">{{ game.team2.name }}</a></td></tr>
-                            {% endfor %}
-                        </table>
-                    </div>
+{% block content %}
+    <div class="panel-group">
+    {% for round in round_list %}
+        {% if round.state != 0 %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2>{{ round.name }}</h2>
                 </div>
-            {% endif %}
-        {% empty %}
-            <p>Жеребьевка отсутствует</p>
-        {% endfor %}
+                <div class="panel-body">
+                    <p>Начало: {{ round.start_dttm }}</p>
+                    <p>Окончание: {{ round.end_dttm }}</p>
+                    <p>{{ round.get_state_display }}</p>
+                    <table class="table table-hover">
+                        {% comment %}<tr>
+                            <th>Sentinel</th>
+                            <th>Scourge</th>
+                        </tr>{% endcomment %}
+                        {% for game in round.tournamentgame_set.all %}
+                            <tr>
+                                <td width="45%"><a href="{{ game.team1.captain.link }}">{{ game.team1.name }}</a></td>
+                                <td align="center">
+                                    {% if game.winner == game.team1 %}
+                                        1:0
+                                    {% elif game.winner == game.team2 %}
+                                        0:1
+                                    {% else %}
+                                        vs
+                                    {% endif %}
+                                </td>
+                                <td width="45%"><a href="{{ game.team2.captain.link }}">{{ game.team2.name }}</a></td></tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+    {% empty %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3>Жеребьевка отсутствует</h3>
+            </div>
         </div>
-    {% endblock %}
+    {% endfor %}
+    </div>
+{% endblock %}

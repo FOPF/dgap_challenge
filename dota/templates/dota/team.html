@@ -47,7 +47,7 @@
                     </form>
                 </div>
             </div>
-        {% else %}
+        {% elif finished_registration == False %}
             <div class="panel-group">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -101,6 +101,17 @@
                             </div>
                             <input type="submit" value="Зарегистрироваться" class="btn btn-default btn-sm">
                         </form>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3>Регистрация окончена</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>Турнир уже начался</p>
                     </div>
                 </div>
             </div>
