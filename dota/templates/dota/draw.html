@@ -19,8 +19,8 @@
                             </tr>{% endcomment %}
                             {% for game in round.tournamentgame_set.all %}
                                 <tr>
-                                    <td><a href="{{ game.team1.captain.link }}">{{ game.team1.name }}</a></td>
-                                    <td>
+                                    <td width="45%"><a href="{{ game.team1.captain.link }}">{{ game.team1.name }}</a></td>
+                                    <td align="center">
                                         {% if game.winner == game.team1 %}
                                             1:0
                                         {% elif game.winner == game.team2 %}
@@ -29,7 +29,7 @@
                                             vs
                                         {% endif %}
                                     </td>
-                                    <td><a href="{{ game.team2.captain.link }}">{{ game.team2.name }}</a></td></tr>
+                                    <td width="45%"><a href="{{ game.team2.captain.link }}">{{ game.team2.name }}</a></td></tr>
                             {% endfor %}
                         </table>
                     </div>
