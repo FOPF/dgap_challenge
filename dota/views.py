@@ -51,7 +51,10 @@ class ArticleDetail(generic.DetailView):
 
 
 class Index(generic.View):
+
     def get(self, request):
+        if datetime.now() > END_TIME_REGISTRATION:
+            return redirect('dota:tournament')
         return redirect('dota:article_list')
     def post(self, request):
         return redirect('dota:article_list')
