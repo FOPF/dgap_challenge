@@ -113,8 +113,8 @@ class TournamentRound(models.Model):
 
 class TournamentGame(models.Model):
     round = models.ForeignKey(TournamentRound)
-    team1 = models.ForeignKey(Team, related_name='team1')
-    team2 = models.ForeignKey(Team, related_name='team2')
+    team1 = models.ForeignKey(Team, related_name='team1', blank=True, null=True, default=None)
+    team2 = models.ForeignKey(Team, related_name='team2', blank=True, null=True, default=None)
     is_active = models.BooleanField("Игра идет", default=False)
     score = models.CharField('Результат', max_length=40, blank=True, null=True, default=None)
     winner = models.ForeignKey(Team, related_name='winner', blank=True, null=True)
@@ -140,4 +140,9 @@ class TournamentGame(models.Model):
         self.save()
 
     def __str__(self):
-        return self.team1.name + ' vs. ' + self.team2.name
+        if self.team1 is None:
+            return self.team2.name + ' отдыхает'
+        elif self.team2 is None:
+            return self.team1.name + ' отдыхает'
+        else:
+            return self.team1.name + ' vs. ' + self.team2.name

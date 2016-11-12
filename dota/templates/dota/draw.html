@@ -29,6 +29,13 @@
                         </tr>{% endcomment %}
                         {% for game in round.tournamentgame_set.all %}
                             <tr>
+                                {% if game.team2 == None %}
+                                <td align="left">
+                                    <a href="{{ game.team1.captain.link }}">{{ game.team1.name }}</a> отдыхает
+                                </td>
+                                <td></td>
+                                <td></td>
+                                {% else %}
                                 <td width="45%"><a href="{{ game.team1.captain.link }}">{{ game.team1.name }}</a></td>
                                 <td align="center">
                                     {% if game.winner == game.team1 %}
@@ -40,6 +47,7 @@
                                     {% endif %}
                                 </td>
                                 <td width="45%"><a href="{{ game.team2.captain.link }}">{{ game.team2.name }}</a></td></tr>
+                                {% endif %}
                         {% endfor %}
                     </table>
                 </div>

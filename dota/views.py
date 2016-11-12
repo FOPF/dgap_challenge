@@ -29,12 +29,16 @@ def _tournament_results(tournament):
                 tournamentgame = round.tournamentgame_set.filter(Q(team1=team) | Q(team2=team)).first()
             except ObjectDoesNotExist:
                 continue
+            if not tournamentgame:
+                continue
+            # TODO if either try. We need only one
+
             if not tournamentgame.winner:
                 continue
             else:
                 score = len(round.tournamentgame_set.filter(winner=team)) + last_score.get(team.name, 0)
-                data.loc[team.name, str(round.num) + ' тур'] = score
-                last_score[team.name] = score
+            data.loc[team.name, str(round.num) + ' тур'] = score
+            last_score[team.name] = score
     return data
 
 class ArticlesList(generic.ListView):
@@ -59,7 +63,7 @@ class TournamentView(generic.View):
         if datetime.now() > END_TIME_REGISTRATION:
             template_name = "dota/draw.html"
             dct = {
-                'round_list': TournamentRound.objects.all()
+                'round_list': TournamentRound.objects.all().order_by('-num')
             }
             table = _tournament_results(Tournament.objects.first())
             if len(table) > 0:
