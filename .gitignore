@@ -5,3 +5,4 @@ logs/
 pids/
 venv/
 db.sqlite3
+/static/
