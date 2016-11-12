@@ -31,10 +31,10 @@
                             <tr>
                                 {% if game.team2 == None %}
                                 <td align="left">
-                                    <a href="{{ game.team1.captain.link }}">{{ game.team1.name }}</a> отдыхает
+                                    <a href="{{ game.team1.captain.link }}">{{ game.team1.name }}</a>
                                 </td>
                                 <td></td>
-                                <td></td>
+                                <td>отдыхает</td>
                                 {% else %}
                                 <td width="45%"><a href="{{ game.team1.captain.link }}">{{ game.team1.name }}</a></td>
                                 <td align="center">
