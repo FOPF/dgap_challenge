@@ -17,9 +17,9 @@ from django.db.models import Q
 
 def _tournament_results(tournament):
     teams = tournament.teams.all()  # participants
-    rounds = TournamentRound.objects
+    rounds = TournamentRound.objects.filter(~Q(name='Финал'))
     data = DataFrame(index=[team.name for team in teams],
-                     columns=[str(round.num) + ' тур' for round in rounds.filter(~Q(name='Финал'))])
+                     columns=[str(round.num) + ' тур' for round in rounds])
     rounds = rounds.filter(state__in=[TournamentRound.FINISHED, TournamentRound.CANCELLED,
                                       TournamentRound.STARTED])
     last_score = {}
@@ -31,7 +31,7 @@ def _tournament_results(tournament):
                 continue
             if not tournamentgame:
                 continue
-            # TODO if either try. We need only one
+            # TODO either if or try. We need only one
 
             if not tournamentgame.winner:
                 continue
@@ -53,8 +53,6 @@ class ArticleDetail(generic.DetailView):
 class Index(generic.View):
 
     def get(self, request):
-        if datetime.now() > END_TIME_REGISTRATION:
-            return redirect('dota:tournament')
         return redirect('dota:article_list')
     def post(self, request):
         return redirect('dota:article_list')
