@@ -7,7 +7,7 @@ django-sendfile==0.3.9
 django-user-agents==0.3.0
 gunicorn==19.3.0
 html5lib==0.999999
-httplib2==0.9.1
+httplib2==0.18.0
 Jinja2==2.8
 jsonschema==2.5.1
 oauthlib==1.0.3
