@@ -1,5 +1,5 @@
 bleach==1.4.1
-Django==1.8.15
+Django==1.11.29
 django-bleach==0.3.0
 django-bootstrap3==6.2.1
 django-registration-redux==1.2
